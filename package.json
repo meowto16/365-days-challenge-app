@@ -2,9 +2,9 @@
   "name": "365-days-challenge-app",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "express src/main.js"
+    "start": "node src/main.js"
   },
   "author": "",
   "license": "ISC",
