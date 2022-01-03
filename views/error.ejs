@@ -1,3 +1,80 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: Montserrat;
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+            src: url("/fonts/Montserrat/Montserrat-Bold.ttf") format('truetype'),
+            local("Lucida grande");
+        }
+
+        @font-face {
+            font-family: Montserrat;
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+            src: url("/fonts/Montserrat/Montserrat-Regular.ttf") format('truetype'),
+            local("Lucida grande");
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100vh;
+            font-family: 'Montserrat', "Lucida Grande", "Arial", sans-serif;
+        }
+
+        .container {
+            max-width: 1440px;
+            padding: 30px;
+        }
+
+        .wrapper {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-flow: column nowrap;
+            text-align: center;
+        }
+
+        .code {
+            background: #eee;
+            padding: 40px;
+        }
+
+        code {
+            font-size: 18px;
+            color: #575757;
+        }
+    </style>
+</head>
+<body style="height: 100vh;">
+<div class="wrapper">
+    <div class="container">
+        <h1>
+            <%= error.status %>
+        </h1>
+        <h2><%= message %></h2>
+        <div class="code">
+            <code><%= error.stack %></code>
+        </div>
+    </div>
+</div>
+</body>
+</html>
