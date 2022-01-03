@@ -1,11 +1,181 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<html lang="en">
+<head>
+  <title>365 days challenge</title>
+  <link rel='stylesheet' href='/css/style.css'/>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<header class="header header--elevated">
+  <div class="header__content">
+    <div class="container">
+      <div class="header__inner">
+        <div class="header__logo">
+          <div class="logo">
+            <span class="logo__icon">
+              <svg class="svg-fit">
+                <use xlink:href="/svg/sprite.svg#logo"></use>
+              </svg>
+            </span>
+            <h1 class="logo__text">365 days challenge</h1>
+          </div>
+        </div>
+        <div class="header__date">
+          <% if (typeof time !== 'undefined') { %>
+            <time class="header__time" datetime="<%= time.datetime %>" datatype="<%= time.datatype %>">
+              <%= time.humantime %>
+            </time>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="main">
+  <div class="container">
+    <% if (typeof challengers !== 'undefined' && !!challengers?.length) { %>
+      <section class="challengers" id="challengers">
+        <h2 class="challengers__title">Challengers</h2>
+        <div class="challengers__container">
+          <% challengers.map(challenger => { %>
+            <div class="challenger__card">
+              <div class="card">
+                <div class="card__left">
+                  <div class="card__info">
+                    <% if (typeof challenger.avatar !== 'undefined') { %>
+                      <img class="card__avatar" src="<%= challenger.avatar %>" alt="<%= challenger.name %>"/>
+                    <% } %>
+                    <% if (typeof challenger.name !== 'undefined') { %>
+                      <p class="card__name"><%= challenger.name %></p>
+                    <% } %>
+                    <% if (typeof challenger.specialization !== 'undefined') { %>
+                      <span class="card__technology">
+                  <svg class="svg-fit">
+                    <use xlink:href="<%= challenger.specialization %>"></use>
+                  </svg>
+                </span>
+                    <% } %>
+                  </div>
+                  <% if (typeof challenger.stats !== 'undefined') { %>
+                    <div class="card__stats">
+                      <p class="card__title">Current stats</p>
+                      <ul class="card__statistic">
+                        <% if (typeof challenger.stats.currentStreak === 'string') { %>
+                          <li><strong>Current streak: </strong><%= challenger.stats.currentStreak %></li>
+                        <% } %>
+                        <% if (typeof challenger.stats.contributionsPerDay === 'string') { %>
+                          <li><strong>Contributions per day: </strong><%= challenger.stats.contributionsPerDay %></li>
+                        <% } %>
+                        <% if (typeof challenger.stats.lastActive === 'string') { %>
+                          <li><strong>Last active: </strong><%= challenger.stats.lastActive %></li>
+                        <% } %>
+                        <% if (typeof challenger.stats.daysMissed === 'string') { %>
+                          <li><strong>Days missed: </strong><%= challenger.stats.daysMissed %></li>
+                        <% } %>
+                      </ul>
+                    </div>
+                  <% } %>
+
+                  <% if (typeof challenger.achievements !== 'undefined' && !!challenger.achievements?.length) { %>
+                    <div class="card__achievements">
+                      <p class="card__title">Achievements</p>
+                      <div class="achievements">
+                        <ul class="achievements__list">
+                          <% challenger.achievements.map(achievement => { %>
+                            <li class="achievements__item">
+                              <span class="achievements__icon">
+                                <svg class="svg-fit" width="20" height="20">
+                                  <use xlink:href="<%= achievement.icon %>"></use>
+                                </svg>
+                              </span>
+                            </li>
+                          <% }) %>
+                        </ul>
+                      </div>
+                    </div>
+                  <% } %>
+
+                  <% if (typeof challenger.socials !== 'undefined') { %>
+                    <div class="card__socials">
+                      <ul class="socials">
+                        <% Object.keys(challenger.socials).map(key => { %>
+                          <li class="socials__item">
+                            <a class="socials__icon" href="<%= challenger.socials[key] %>" target="_blank">
+                              <svg class="svg-fit">
+                                <use xlink:href="/svg/sprite.svg#<%= key %>"></use>
+                              </svg>
+                            </a>
+                          </li>
+                        <% }) %>
+                      </ul>
+                    </div>
+                  <% } %>
+                </div>
+                <div class="card__right">
+
+                  <div class="card__rating">
+                      <% if (typeof challenger.rating === 'number') { %>
+                    <div>
+                        <ul class="rating">
+                          <% for (let i = 1; i <= 5; i++) { %>
+                            <li class="rating__star rating__star--<%= i <= challenger.rating ? 'filled' : 'default' %>">
+                              <svg class="svg-fit">
+                                <use xlink:href="/svg/sprite.svg#star"></use>
+                              </svg>
+                            </li>
+                          <% } %>
+                        </ul>
+                    </div>
+                          <% } %>
+                    <p class="card__title">Last week activity</p>
+                  </div>
+
+                  <% if (typeof challenger.activity !== 'undefined') { %>
+                  <div class="card__activity">
+                    <ul class="activity">
+                      <% Object.keys(challenger.activity).map(day => { %>
+                        <li class="activity__item">
+                          <span class="activity__title"><%= day %></span>
+                          <span class="<%= (() => {
+                            const classes = ['activity__scale']
+                            const activity = challenger.activity[day]
+                            if (activity <= 2 && activity > 0) classes.push('activity__scale--warning')
+                            if (activity === 0) classes.push('activity__scale--danger')
+                            return classes.join(' ')
+                          })() %>">
+                            <% for (let i = 6; i >= 1; i--) { %>
+                              <span class="activity__scale-part activity__scale-part--<%= i <= challenger.activity[day] ? 'filled' : 'empty' %>"></span>
+                            <% } %>
+                          </span>
+                        </li>
+                      <% }) %>
+                    </ul>
+                  </div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+    <% } %>
+  </div>
+</main>
+<footer class="footer footer--black">
+  <div class="copyright">
+    <div class="container">
+      <div class="copyright__inner">
+          <span class="copyright__icon">
+            <svg class="svg-fit" width="24" height="24">
+              <use xlink:href="/svg/sprite.svg#cards"></use>
+            </svg>
+        </span>
+        <span class="copyright__title">Made with skill. 2022</span>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+</body>
 </html>
