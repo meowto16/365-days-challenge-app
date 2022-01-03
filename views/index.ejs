@@ -83,7 +83,7 @@
                       <div class="achievements">
                         <ul class="achievements__list">
                           <% challenger.achievements.map(achievement => { %>
-                            <li class="achievements__item">
+                            <li class="achievements__item" data-popper data-popper-title="✔ <%= achievement.name %>" data-popper-description="<%= achievement.description %>">
                               <span class="achievements__icon">
                                 <svg class="svg-fit" width="20" height="20">
                                   <use xlink:href="<%= achievement.icon %>"></use>
@@ -117,7 +117,10 @@
                   <div class="card__rating">
                       <% if (typeof challenger.rating === 'number') { %>
                     <div>
-                        <ul class="rating">
+                        <ul class="rating"
+                            data-popper
+                            data-popper-title="User rating"
+                            data-popper-description="Every day matter. Calculates from last 7 days average efficiency">
                           <% for (let i = 1; i <= 5; i++) { %>
                             <li class="rating__star rating__star--<%= i <= challenger.rating ? 'filled' : 'default' %>">
                               <svg class="svg-fit">
@@ -176,6 +179,12 @@
     </div>
   </div>
 </footer>
+<div class="tooltip tooltip--hidden" role="tooltip">
+    <span class="tooltip__title js-tooltip-title">God</span>
+    <span class="tooltip__description js-tooltip-description">15 contributions</span>
+    <div id="arrow" data-popper-arrow></div>
+</div>
 <script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="/js/script.js"></script>
 </body>
 </html>
