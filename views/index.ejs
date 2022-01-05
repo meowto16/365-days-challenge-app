@@ -83,7 +83,10 @@
                       <div class="achievements">
                         <ul class="achievements__list">
                           <% challenger.achievements.map(achievement => { %>
-                            <li class="achievements__item" data-popper data-popper-title="✔ <%= achievement.name %>" data-popper-description="<%= achievement.description %>">
+                            <li class="achievements__item <%= achievement.completed ? 'achievements__item--completed' : 'achievements__item--default' %>"
+                                data-popper
+                                data-popper-title="<%= achievement.completed ? '✔ ' : ''%><%= achievement.name %>"
+                                data-popper-description="<%= achievement.description %>">
                               <span class="achievements__icon">
                                 <svg class="svg-fit" width="20" height="20">
                                   <use xlink:href="<%= achievement.icon %>"></use>
