@@ -4,9 +4,10 @@ const {gql} = require("graphql-request");
 const plural = require('plural-ru')
 
 class Challenger {
-  constructor(github, info, achievements) {
+  constructor(github, info, meta) {
     this._github = github
     this.info = info
+    this.meta = meta
     this._achievements = [
       new Achievement('1-day-contribute-in-a-row', 'First step', '1 day gone', '/svg/sprite.svg#medal-1'),
       new Achievement('7-day-contribute-in-a-row', 'Week hero', 'contribute 7 days in a row', '/svg/sprite.svg#medal-2'),
@@ -71,7 +72,7 @@ class Challenger {
       }
     `, {
       userName: this._github,
-      from: new Date('2022-01-01'),
+      from: this?.meta?.startDate || new Date('2022-01-01'),
       to: (() => {
         const today = new Date()
         const yearEnd = new Date('2022-12-31')
@@ -94,7 +95,9 @@ class Challenger {
 
   static #calculateContributionsPerDay(contributions) {
     const total = [...contributions.values()].reduce((count, current) => count + current, 0)
-    return total / contributions.size
+    if (!contributions.size) return 0
+
+    return +(total / contributions.size).toFixed(2)
   }
 
   static #calculateContributionsDaysMissed(contributions) {
@@ -121,6 +124,8 @@ class Challenger {
         acc[lastIdx] = count
         lastIdx++
         count = 0
+        
+        return acc
       }, [])
 
       return streaks.length ? Math.max(...streaks) : 0
@@ -199,12 +204,12 @@ class Challenger {
     return lastWeekContributes.reduce((acc, [date, count]) => {
       const day = new Date(date).toDateString().slice(0, 3)
       const activity = (() => {
-        if (count >= 18) return 6
-        if (count >= 15) return 5
-        if (count >= 12) return 4
-        if (count >= 9) return 3
-        if (count >= 6) return 2
-        if (count >= 3) return 1
+        if (count >= 10) return 6
+        if (count >= 8) return 5
+        if (count >= 6) return 4
+        if (count >= 4) return 3
+        if (count >= 2) return 2
+        if (count >= 1) return 1
 
         return 0
       })()
