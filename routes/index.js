@@ -13,7 +13,7 @@ router.get('/', async function(req, res) {
       socials: {
         vk: 'https://vk.com/meowto16',
         github: 'https://github.com/meowto16',
-      }}),
+      }}, { startDate: new Date('2022-01-01') }),
     new Challenger('e-razboinikov', {
       name: 'Razboynikov E.',
       avatar: '/images/evgeniy-razboynikov.jpeg',
@@ -21,7 +21,15 @@ router.get('/', async function(req, res) {
       socials: {
         vk: 'https://vk.com/e.razboinikov',
         github: 'https://github.com/e-razboinikov',
-      }}),
+      }}, { startDate: new Date('2022-01-01') }),
+    new Challenger('ruslan-bekshenev', {
+      name: 'Bekshenev R.',
+      avatar: '/images/ruslan-bekshenev.jpg',
+      specialization: '/svg/sprite.svg#react',
+      socials: {
+        vk: 'https://vk.com/mynameisruslanbek',
+        github: 'https://github.com/ruslan-bekshenev',
+      }}, { startDate: new Date('2022-01-21') })
   ]
 
   const challengersFullified = await Promise.all(
