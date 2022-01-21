@@ -14,7 +14,7 @@ const main = function () {
         const description = node.getAttribute('data-popper-description')
 
         tooltipTitle.innerText = title || ''
-        tooltipDescription.innerText = description || ''
+        tooltipDescription.innerHTML = description || ''
 
         tooltipNode.classList.remove('tooltip--hidden')
         tooltipNode.classList.add('tooltip--visible')

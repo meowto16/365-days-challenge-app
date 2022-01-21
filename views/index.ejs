@@ -67,6 +67,9 @@
                         <% if (typeof challenger.stats.contributionsPerDay === 'string') { %>
                           <li><strong>Contributions per day: </strong><%= challenger.stats.contributionsPerDay %></li>
                         <% } %>
+                        <% if (typeof challenger.stats.totalContributes === 'string') { %>
+                            <li><strong>Total contributes: </strong><%= challenger.stats.totalContributes %></li>
+                        <% } %>
                         <% if (typeof challenger.stats.lastActive === 'string') { %>
                           <li><strong>Last active: </strong><%= challenger.stats.lastActive %></li>
                         <% } %>
@@ -123,7 +126,15 @@
                         <ul class="rating"
                             data-popper
                             data-popper-title="User rating"
-                            data-popper-description="Every day matter. Calculates from last 7 days average efficiency">
+                            data-popper-description="
+                                Every day matter. Calculates from last 7 days average efficiency (contributes in a week).
+                                <br>
+                                <br>★ 1 - 8 contributes
+                                <br>★ 2 - 16 contributes
+                                <br>★ 3 - 24 contributes
+                                <br>★ 4 - 32 contributes
+                                <br>★ 5 - 40 contributes
+                            ">
                           <% for (let i = 1; i <= 5; i++) { %>
                             <li class="rating__star rating__star--<%= i <= challenger.rating ? 'filled' : 'default' %>">
                               <svg class="svg-fit">
@@ -141,17 +152,21 @@
                   <div class="card__activity">
                     <ul class="activity">
                       <% Object.keys(challenger.activity).map(day => { %>
-                        <li class="activity__item">
+                        <li class="activity__item"
+                            data-popper
+                            data-popper-title="<%= challenger.activity[day].date %>"
+                            data-popper-description="<%= challenger.activity[day].contributes %>"
+                        >
                           <span class="activity__title"><%= day %></span>
                           <span class="<%= (() => {
                             const classes = ['activity__scale']
-                            const activity = challenger.activity[day]
+                            const activity = challenger.activity[day].activity
                             if (activity <= 2 && activity > 0) classes.push('activity__scale--warning')
                             if (activity === 0) classes.push('activity__scale--danger')
                             return classes.join(' ')
                           })() %>">
                             <% for (let i = 6; i >= 1; i--) { %>
-                              <span class="activity__scale-part activity__scale-part--<%= i <= challenger.activity[day] ? 'filled' : 'empty' %>"></span>
+                              <span class="activity__scale-part activity__scale-part--<%= i <= challenger.activity[day].activity ? 'filled' : 'empty' %>"></span>
                             <% } %>
                           </span>
                         </li>
