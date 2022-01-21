@@ -33,6 +33,7 @@ class Challenger {
     const streak = Challenger.#calculateCurrentStreak(contributions)
     const perDay = Challenger.#calculateContributionsPerDay(contributions)
     const daysMissed = Challenger.#calculateContributionsDaysMissed(contributions)
+    const totalContributes = Challenger.#calculateAllContributions(contributions)
 
     const achievements = this.#calculateAchievements(contributions)
     const activity = this.#calculateActivity(contributions)
@@ -45,6 +46,7 @@ class Challenger {
         contributionsPerDay: typeof perDay === 'number' ? `${perDay}` : null,
         // lastActive: '5 hours ago',
         daysMissed: typeof daysMissed === 'number' ? `${daysMissed}` : null,
+        totalContributes: typeof totalContributes === 'number' ? `${totalContributes}` : null,
       },
       achievements,
       rating,
@@ -188,13 +190,14 @@ class Challenger {
   }
 
   #calculateRating(contributions) {
-    const lastWeekContributionsCount = [...contributions.values()].reduce((acc, cur) => acc + cur, 0)
+    const lastWeekContributionsCount = [...contributions.values()].slice(-7).reduce((acc, cur) => acc + cur, 0)
+    console.log([...contributions.values()].slice(-7))
 
-    if (lastWeekContributionsCount >= 48) return 5
-    if (lastWeekContributionsCount >= 36) return 4
+    if (lastWeekContributionsCount >= 40) return 5
+    if (lastWeekContributionsCount >= 32) return 4
     if (lastWeekContributionsCount >= 24) return 3
-    if (lastWeekContributionsCount >= 12) return 2
-    if (lastWeekContributionsCount >= 6) return 1
+    if (lastWeekContributionsCount >= 16) return 2
+    if (lastWeekContributionsCount >= 8) return 1
 
     return 0
   }
@@ -213,9 +216,19 @@ class Challenger {
 
         return 0
       })()
-      acc[day] = activity
+      acc[day] = {
+        activity,
+        date: `${day} (${date})`,
+        contributes: `${count} ${plural(count, 'contribute', 'contributes')}`,
+      }
       return acc
     }, {})
+  }
+  
+  static #calculateAllContributions(contributions) {
+    if (!contributions.size) return 0
+
+    return [...contributions.values()].reduce((count, current) => count + current, 0)
   }
 }
 
