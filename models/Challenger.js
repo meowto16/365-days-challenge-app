@@ -92,7 +92,16 @@ class Challenger {
   }
 
   static #calculateCurrentStreak(contributions) {
-    return [...contributions.values()].reduce((count, current) => current === 0 ? 0 : count + 1, 0)
+    const values = [...contributions.values()]
+    const streak = values.slice(0, values.length - 1).reduce((count, current) => {
+      return current !== 0
+        ? count + 1
+        : 0
+    }, 0)
+
+    const lastDayContributed = values[values.length - 1] ? 1 : 0
+
+    return streak + lastDayContributed
   }
 
   static #calculateContributionsPerDay(contributions) {
@@ -103,7 +112,9 @@ class Challenger {
   }
 
   static #calculateContributionsDaysMissed(contributions) {
-    return [...contributions.values()].filter(count => count === 0).length
+    const values = [...contributions.values()]
+
+    return values.slice(0, values.length - 1).filter(count => count === 0).length
   }
 
   #calculateAchievements(contributions) {
@@ -191,7 +202,6 @@ class Challenger {
 
   #calculateRating(contributions) {
     const lastWeekContributionsCount = [...contributions.values()].slice(-7).reduce((acc, cur) => acc + cur, 0)
-    console.log([...contributions.values()].slice(-7))
 
     if (lastWeekContributionsCount >= 40) return 5
     if (lastWeekContributionsCount >= 32) return 4
@@ -219,7 +229,9 @@ class Challenger {
       acc[day] = {
         activity,
         date: `${day} (${date})`,
-        contributes: `${count} ${plural(count, 'contribute', 'contributes')}`,
+        contributes: count === 0
+          ? 'No contributes'
+          : `${count} ${plural(count, 'contribute', 'contributes')}`
       }
       return acc
     }, {})
