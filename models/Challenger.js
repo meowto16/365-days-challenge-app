@@ -10,17 +10,25 @@ class Challenger {
     this.meta = meta
     this._achievements = [
       new Achievement('1-day-contribute-in-a-row', 'First step', '1 day gone', '/svg/sprite.svg#medal-1'),
-      new Achievement('7-day-contribute-in-a-row', 'Week hero', 'contribute 7 days in a row', '/svg/sprite.svg#medal-2'),
-      new Achievement('30-day-contribute-in-a-row', 'Month terminator', 'contribute 30 days in a row', '/svg/sprite.svg#medal-3'),
-      new Achievement('90-day-contribute-in-a-row', 'Tryhard', 'contribute 90 days in a row', '/svg/sprite.svg#medal-4'),
-      new Achievement('180-day-contribute-in-a-row', 'Demigod', 'contribute 180 days in a row', '/svg/sprite.svg#medal-5'),
-      new Achievement('365-day-contribute-in-a-row', 'God', 'contribute 365 days in a row', '/svg/sprite.svg#medal-6'),
-      new Achievement('5-contributes-in-a-day', 'Trainee', 'make 5 contributes in a day', '/svg/sprite.svg#ribbon-1'),
-      new Achievement('10-contributes-in-a-day', 'Junior', 'make 10 contributes in a day', '/svg/sprite.svg#ribbon-2'),
-      new Achievement('15-contributes-in-a-day', 'Pre-middle', 'make 15 contributes in a day', '/svg/sprite.svg#ribbon-3'),
-      new Achievement('20-contributes-in-a-day', 'Middle', 'make 20 contributes in a day', '/svg/sprite.svg#ribbon-4'),
-      new Achievement('30-contributes-in-a-day', 'Upper-middle', 'make 30 contributes in a day', '/svg/sprite.svg#ribbon-5'),
-      new Achievement('50-contributes-in-a-day', 'Senior', 'make 50 contributes in a day', '/svg/sprite.svg#ribbon-6'),
+      new Achievement('7-day-contribute-in-a-row', 'Week hero', '7 days in a row', '/svg/sprite.svg#medal-2'),
+      new Achievement('30-day-contribute-in-a-row', 'Month terminator', '30 days in a row', '/svg/sprite.svg#medal-3'),
+      new Achievement('90-day-contribute-in-a-row', 'Tryhard', '90 days in a row', '/svg/sprite.svg#medal-4'),
+      new Achievement('180-day-contribute-in-a-row', 'Demigod', '180 days in a row', '/svg/sprite.svg#medal-5'),
+      new Achievement('365-day-contribute-in-a-row', 'God', '365 days in a row', '/svg/sprite.svg#medal-6'),
+      
+      new Achievement('25-contributes-total', 'Tenten', '25 contributes in total', '/svg/sprite.svg#medal-c-1'),
+      new Achievement('100-contributes-total', 'Killing spree', '100 contributes in total', '/svg/sprite.svg#medal-c-2'),
+      new Achievement('250-contributes-total', 'Rampage', '250 contributes in total', '/svg/sprite.svg#medal-c-3'),
+      new Achievement('500-contributes-total', 'Dominating', '500 contributes in total', '/svg/sprite.svg#medal-c-4'),
+      new Achievement('1000-contributes-total', 'Unstoppable', '1000 contributes in total', '/svg/sprite.svg#medal-c-5'),
+      new Achievement('2000-contributes-total', 'Godlike', '2000 contributes in total', '/svg/sprite.svg#medal-c-6'),
+  
+      new Achievement('5-contributes-in-a-day', 'Trainee', '5 contributes in a day', '/svg/sprite.svg#ribbon-1'),
+      new Achievement('10-contributes-in-a-day', 'Junior', '10 contributes in a day', '/svg/sprite.svg#ribbon-2'),
+      new Achievement('15-contributes-in-a-day', 'Pre-middle', '15 contributes in a day', '/svg/sprite.svg#ribbon-3'),
+      new Achievement('20-contributes-in-a-day', 'Middle', '20 contributes in a day', '/svg/sprite.svg#ribbon-4'),
+      new Achievement('30-contributes-in-a-day', 'Upper-middle', '30 contributes in a day', '/svg/sprite.svg#ribbon-5'),
+      new Achievement('50-contributes-in-a-day', 'Senior', '50 contributes in a day', '/svg/sprite.svg#ribbon-6'),
     ]
   }
 
@@ -118,6 +126,10 @@ class Challenger {
   }
 
   #calculateAchievements(contributions) {
+    const contributesTotal = (() => {
+      return [...contributions.values()].reduce((acc, cur) => acc + cur, 0)
+    })()
+    
     const maxContributesDaysInARow = (() => {
       let count = 0
       let lastIdx = 0
@@ -150,50 +162,38 @@ class Challenger {
 
     const getProgress = (progress) => {
       if (typeof progress !== 'number') return 0
+      progress *= 100
+
       if (progress > 100) return 100
       if (progress < 0) return 0
       return progress
     }
+  
+    const achievementMap = {
+      '1-day-contribute-in-a-row': maxContributesDaysInARow / 1,
+      '7-day-contribute-in-a-row': maxContributesDaysInARow / 7,
+      '30-day-contribute-in-a-row': maxContributesDaysInARow / 30,
+      '90-day-contribute-in-a-row': maxContributesDaysInARow / 90,
+      '180-day-contribute-in-a-row': maxContributesDaysInARow / 180,
+      '365-day-contribute-in-a-row': maxContributesDaysInARow / 365,
+    
+      '5-contributes-in-a-day': maxContributesInADay / 5,
+      '10-contributes-in-a-day': maxContributesInADay / 10,
+      '15-contributes-in-a-day': maxContributesInADay / 15,
+      '20-contributes-in-a-day': maxContributesInADay / 20,
+      '30-contributes-in-a-day': maxContributesInADay / 30,
+      '50-contributes-in-a-day': maxContributesInADay / 50,
+  
+      '25-contributes-total': contributesTotal / 25,
+      '100-contributes-total': contributesTotal / 100,
+      '250-contributes-total': contributesTotal / 250,
+      '500-contributes-total': contributesTotal / 500,
+      '1000-contributes-total': contributesTotal / 1000,
+      '2000-contributes-total': contributesTotal / 2000,
+    }
 
-    this._achievements.map(achievement => {
-      switch (achievement.code) {
-        case '1-day-contribute-in-a-row':
-          achievement.progress = getProgress(maxContributesDaysInARow / 1 * 100)
-          break;
-        case '7-day-contribute-in-a-row':
-          achievement.progress = getProgress(maxContributesDaysInARow / 7 * 100)
-          break;
-        case '30-day-contribute-in-a-row':
-          achievement.progress = getProgress(maxContributesDaysInARow / 30 * 100)
-          break;
-        case '90-day-contribute-in-a-row':
-          achievement.progress = getProgress(maxContributesDaysInARow / 90 * 100)
-          break;
-        case '180-day-contribute-in-a-row':
-          achievement.progress = getProgress(maxContributesDaysInARow / 180 * 100)
-          break;
-        case '365-day-contribute-in-a-row':
-          achievement.progress = getProgress(maxContributesDaysInARow / 365 * 100)
-          break;
-        case '5-contributes-in-a-day':
-          achievement.progress = getProgress(maxContributesInADay / 5 * 100)
-          break;
-        case '10-contributes-in-a-day':
-          achievement.progress = getProgress(maxContributesInADay / 10 * 100)
-          break;
-        case '15-contributes-in-a-day':
-          achievement.progress = getProgress(maxContributesInADay / 15 * 100)
-          break;
-        case '20-contributes-in-a-day':
-          achievement.progress = getProgress(maxContributesInADay / 20 * 100)
-          break;
-        case '30-contributes-in-a-day':
-          achievement.progress = getProgress(maxContributesInADay / 30 * 100)
-          break;
-        case '50-contributes-in-a-day':
-          achievement.progress = getProgress(maxContributesInADay / 50 * 100)
-          break;
-      }
+    this._achievements.forEach(achievement => {
+      achievement.progress = getProgress(achievementMap[achievement.code])
       achievement.completed = achievement.progress === 100
     })
 
