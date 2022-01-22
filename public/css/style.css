@@ -174,14 +174,14 @@ body {
   background-color: #fff;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px 0 0 4px;
-  padding: 36px;
+  padding: 44px 36px;
 }
 
 .card__right {
   background-color: #fff;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   border-radius: 0 4px 4px 0;
-  padding: 36px;
+  padding: 44px 36px;
 }
 
 .card__title {
@@ -215,8 +215,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
 }
 
 .card__statistic {
@@ -256,7 +256,7 @@ body {
   list-style: none;
   padding: 0;
   grid-template-columns: repeat(6, 40px);
-  grid-template-rows: repeat(2, 40px);
+  grid-template-rows: repeat(3, 40px);
   grid-gap: 8px;
   margin: 0;
 }
@@ -344,7 +344,7 @@ body {
 
 .activity__scale-part {
   width: 100%;
-  height: 15px;
+  height: 20px;
   border-left: 1px solid #EEEEEE;
   border-right: 1px solid #EEEEEE;
   border-top: 0.5px solid #eee;
