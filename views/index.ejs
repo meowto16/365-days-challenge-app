@@ -44,7 +44,28 @@
                 <div class="card__left">
                   <div class="card__info">
                     <% if (typeof challenger.avatar !== 'undefined') { %>
-                      <img class="card__avatar" src="<%= challenger.avatar %>" alt="<%= challenger.name %>"/>
+                      <div class="card__avatar">
+                          <img class="card__avatar-img"
+                               width="100"
+                               height="100"
+                               src="<%= challenger.avatar %>"
+                               alt="<%= challenger.name %>"/>
+                          <% if (typeof challenger.secretAchievements.some(achievement => achievement.completed)) { %>
+                          <ul class="secret-achievements">
+                              <% if (challenger.secretAchievements.find(ach => ach.code === 'takes-it-easy' && ach.completed)) { %>
+                              <li class="secret-achievements__item"
+                                  data-popper
+                                  data-popper-title="На расслабоне"
+                                  data-popper-description="
+                                    За неделю 7 контрибьютов...
+                                    <img class='secret-achievements__full-img' src='/images/memes/1-takes-it-easy@full.png'>
+                                    Лишь бы не проиграть пиццу? Не позорься и <b>купи всем пиццы</b>">
+                                  <img class="secret-achievements__img" src="/images/memes/1-takes-it-easy.png" width="20" height="20" />
+                              </li>
+                              <% } %>
+                          </ul>
+                          <% } %>
+                      </div>
                     <% } %>
                     <% if (typeof challenger.name !== 'undefined') { %>
                       <p class="card__name"><%= challenger.name %></p>

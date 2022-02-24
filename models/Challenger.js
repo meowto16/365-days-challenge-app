@@ -30,6 +30,10 @@ class Challenger {
       new Achievement('30-contributes-in-a-day', 'Upper-middle', '30 contributes in a day', '/svg/sprite.svg#ribbon-5'),
       new Achievement('50-contributes-in-a-day', 'Senior', '50 contributes in a day', '/svg/sprite.svg#ribbon-6'),
     ]
+
+    this._secretAchievements = [
+      new Achievement('takes-it-easy')
+    ]
   }
 
   async getFullInformation() {
@@ -44,6 +48,7 @@ class Challenger {
     const totalContributes = Challenger.#calculateAllContributions(contributions)
 
     const achievements = this.#calculateAchievements(contributions)
+    const secretAchievements = this.#calculateSecretAchievements(contributions)
     const activity = this.#calculateActivity(contributions)
     const rating = this.#calculateRating(contributions)
 
@@ -57,6 +62,7 @@ class Challenger {
         totalContributes: typeof totalContributes === 'number' ? `${totalContributes}` : null,
       },
       achievements,
+      secretAchievements,
       rating,
       activity,
     }
@@ -198,6 +204,37 @@ class Challenger {
     })
 
     return this._achievements
+  }
+
+  #calculateSecretAchievements(contributions) {
+    const values = [...contributions.values()]
+    this._secretAchievements.forEach(secretAchievement => {
+      switch (secretAchievement.code) {
+
+        case 'takes-it-easy':
+          const slice = values.slice(6)
+
+          if (slice.length === 0) {
+            return
+          }
+
+          const oneContributeIn7DaysInARow = slice.some((day7, idx) => {
+            const startIdx = idx
+            const endIdx = startIdx + 6
+
+            const week = [...values.slice(startIdx, endIdx), day7]
+
+            return week.length === 7 && week.every(dayContributes => dayContributes === 1)
+          })
+
+          secretAchievement.progress = oneContributeIn7DaysInARow ? 100 : 0
+          secretAchievement.completed = secretAchievement.progress === 100
+
+          return
+      }
+    })
+
+    return this._secretAchievements
   }
 
   #calculateRating(contributions) {
