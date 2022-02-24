@@ -1,5 +1,5 @@
 class Achievement {
-  constructor(code, name, description, icon) {
+  constructor(code, name = null, description = null, icon = null) {
     this.code = code
     this.name = name
     this.description = description

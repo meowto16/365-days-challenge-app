@@ -199,12 +199,48 @@ body {
 }
 
 .card__avatar {
+  position: relative;
   display: block;
   width: 100px;
   height: 100px;
+  margin-bottom: 10px;
+}
+
+.card__avatar-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  margin-bottom: 10px;
+}
+
+.secret-achievements {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.secret-achievements__item {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid rgba(206, 56, 126, 0.7);
+}
+
+.secret-achievements__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.secret-achievements__full-img {
+  width: 140px;
+  height: 140px;
+  display: block;
+  margin: 10px auto;
 }
 
 .card__name {
