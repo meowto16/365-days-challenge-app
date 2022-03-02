@@ -43,13 +43,13 @@
               <div class="card">
                 <div class="card__left">
                   <div class="card__info">
-                    <% if (typeof challenger.avatar !== 'undefined') { %>
+                    <% if (typeof challenger.info.avatar !== 'undefined') { %>
                       <div class="card__avatar">
                           <img class="card__avatar-img"
                                width="100"
                                height="100"
-                               src="<%= challenger.avatar %>"
-                               alt="<%= challenger.name %>"/>
+                               src="<%= challenger.info.avatar %>"
+                               alt="<%= challenger.info.name %>"/>
                           <% if (typeof challenger.secretAchievements.some(achievement => achievement.completed)) { %>
                           <ul class="secret-achievements">
                               <% if (challenger.secretAchievements.find(ach => ach.code === 'takes-it-easy' && ach.completed)) { %>
@@ -67,13 +67,13 @@
                           <% } %>
                       </div>
                     <% } %>
-                    <% if (typeof challenger.name !== 'undefined') { %>
-                      <p class="card__name"><%= challenger.name %></p>
+                    <% if (typeof challenger.info.name !== 'undefined') { %>
+                      <p class="card__name"><%= challenger.info.name %></p>
                     <% } %>
-                    <% if (typeof challenger.specialization !== 'undefined') { %>
+                    <% if (typeof challenger.info.specialization !== 'undefined') { %>
                       <span class="card__technology">
                   <svg class="svg-fit">
-                    <use xlink:href="<%= challenger.specialization %>"></use>
+                    <use xlink:href="<%= challenger.info.specialization %>"></use>
                   </svg>
                 </span>
                     <% } %>
