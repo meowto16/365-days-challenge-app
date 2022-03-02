@@ -1,11 +1,13 @@
 const Achievement = require("../models/Achievement");
 const githubGraphQLClient = require('../graphql/github/client')
-const {gql} = require("graphql-request");
+const { gql } = require("graphql-request");
 const plural = require('plural-ru')
 
 class Challenger {
-  constructor(github, info, meta) {
+  constructor(github, vk, info, meta) {
+    this._contributions = new Map()
     this._github = github
+    this._vk = vk
     this.info = info
     this.meta = meta
     this._achievements = [
@@ -37,35 +39,37 @@ class Challenger {
   }
 
   async getFullInformation() {
-    const {user} = await this.#fetchInfo()
-    const contributions = Challenger.#getYearContributionsMap(
+    await this.fetchContributes()
+
+    const streak = this.calculateCurrentStreak()
+    const perDay = this.calculateContributionsPerDay()
+    const daysMissed = this.calculateContributionsDaysMissed()
+    const totalContributes = this.calculateAllContributions()
+
+    const achievements = this.calculateAchievements()
+    const secretAchievements = this.calculateSecretAchievements()
+    const activity = this.calculateActivity()
+    const rating = this.calculateRating()
+
+    this.stats = {
+      currentStreak: typeof streak === 'number' ? `${streak} ${plural(streak, 'day', 'days')}` : null,
+      contributionsPerDay: typeof perDay === 'number' ? `${perDay}` : null,
+      daysMissed: typeof daysMissed === 'number' ? `${daysMissed}` : null,
+      totalContributes: typeof totalContributes === 'number' ? `${totalContributes}` : null,
+    }
+
+    this.achievements = achievements
+    this.secretAchievements = secretAchievements
+    this.rating = rating
+    this.activity = activity
+  }
+
+  async fetchContributes() {
+    const { user } = await this.#fetchInfo()
+
+    this._contributions = Challenger.#getYearContributionsMap(
       user?.contributionsCollection?.contributionCalendar?.weeks
     )
-
-    const streak = Challenger.#calculateCurrentStreak(contributions)
-    const perDay = Challenger.#calculateContributionsPerDay(contributions)
-    const daysMissed = Challenger.#calculateContributionsDaysMissed(contributions)
-    const totalContributes = Challenger.#calculateAllContributions(contributions)
-
-    const achievements = this.#calculateAchievements(contributions)
-    const secretAchievements = this.#calculateSecretAchievements(contributions)
-    const activity = this.#calculateActivity(contributions)
-    const rating = this.#calculateRating(contributions)
-
-    return {
-      ...this.info,
-      stats: {
-        currentStreak: typeof streak === 'number' ? `${streak} ${plural(streak, 'day', 'days')}` : null,
-        contributionsPerDay: typeof perDay === 'number' ? `${perDay}` : null,
-        // lastActive: '5 hours ago',
-        daysMissed: typeof daysMissed === 'number' ? `${daysMissed}` : null,
-        totalContributes: typeof totalContributes === 'number' ? `${totalContributes}` : null,
-      },
-      achievements,
-      secretAchievements,
-      rating,
-      activity,
-    }
   }
 
   async #fetchInfo() {
@@ -105,8 +109,12 @@ class Challenger {
     }, new Map())
   }
 
-  static #calculateCurrentStreak(contributions) {
-    const values = [...contributions.values()]
+  checkHaveContributesToday() {
+    return [...this._contributions.values()].slice(-1)[0] !== 0
+  }
+
+  calculateCurrentStreak() {
+    const values = [...this._contributions.values()]
     const streak = values.slice(0, values.length - 1).reduce((count, current) => {
       return current !== 0
         ? count + 1
@@ -118,29 +126,29 @@ class Challenger {
     return streak + lastDayContributed
   }
 
-  static #calculateContributionsPerDay(contributions) {
-    const total = [...contributions.values()].reduce((count, current) => count + current, 0)
-    if (!contributions.size) return 0
+  calculateContributionsPerDay() {
+    const total = [...this._contributions.values()].reduce((count, current) => count + current, 0)
+    if (!this._contributions.size) return 0
 
-    return +(total / contributions.size).toFixed(2)
+    return +(total / this._contributions.size).toFixed(2)
   }
 
-  static #calculateContributionsDaysMissed(contributions) {
-    const values = [...contributions.values()]
+  calculateContributionsDaysMissed() {
+    const values = [...this._contributions.values()]
 
     return values.slice(0, values.length - 1).filter(count => count === 0).length
   }
 
-  #calculateAchievements(contributions) {
+  calculateAchievements() {
     const contributesTotal = (() => {
-      return [...contributions.values()].reduce((acc, cur) => acc + cur, 0)
+      return [...this._contributions.values()].reduce((acc, cur) => acc + cur, 0)
     })()
     
     const maxContributesDaysInARow = (() => {
       let count = 0
       let lastIdx = 0
 
-      const streaks = [...contributions.values()].reduce((acc, cur, idx, arr) => {
+      const streaks = [...this._contributions.values()].reduce((acc, cur, idx, arr) => {
 
         if (idx === arr.length - 1 && count) {
           acc.push(count)
@@ -163,7 +171,7 @@ class Challenger {
     })()
 
     const maxContributesInADay = (() => {
-      return Math.max(...contributions.values())
+      return Math.max(...this._contributions.values())
     })()
 
     const getProgress = (progress) => {
@@ -206,8 +214,8 @@ class Challenger {
     return this._achievements
   }
 
-  #calculateSecretAchievements(contributions) {
-    const values = [...contributions.values()]
+  calculateSecretAchievements() {
+    const values = [...this._contributions.values()]
     this._secretAchievements.forEach(secretAchievement => {
       switch (secretAchievement.code) {
 
@@ -237,8 +245,8 @@ class Challenger {
     return this._secretAchievements
   }
 
-  #calculateRating(contributions) {
-    const lastWeekContributionsCount = [...contributions.values()].slice(-7).reduce((acc, cur) => acc + cur, 0)
+  calculateRating() {
+    const lastWeekContributionsCount = [...this._contributions.values()].slice(-7).reduce((acc, cur) => acc + cur, 0)
 
     if (lastWeekContributionsCount >= 40) return 5
     if (lastWeekContributionsCount >= 32) return 4
@@ -249,8 +257,8 @@ class Challenger {
     return 0
   }
 
-  #calculateActivity(contributions) {
-    const lastWeekContributes = [...contributions].slice(-7)
+  calculateActivity() {
+    const lastWeekContributes = [...this._contributions].slice(-7)
     return lastWeekContributes.reduce((acc, [date, count]) => {
       const day = new Date(date).toDateString().slice(0, 3)
       const activity = (() => {
@@ -274,10 +282,18 @@ class Challenger {
     }, {})
   }
   
-  static #calculateAllContributions(contributions) {
-    if (!contributions.size) return 0
+  calculateAllContributions() {
+    if (!this._contributions.size) return 0
 
-    return [...contributions.values()].reduce((count, current) => count + current, 0)
+    return [...this._contributions.values()].reduce((count, current) => count + current, 0)
+  }
+
+  get github() {
+    return this._github
+  }
+
+  get vk() {
+    return this._vk
   }
 }
 
