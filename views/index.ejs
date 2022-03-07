@@ -60,8 +60,20 @@
                                     За неделю 7 контрибьютов...
                                     <img class='secret-achievements__full-img' src='/images/memes/1-takes-it-easy@full.png'>
                                     Лишь бы не проиграть пиццу? Не позорься и <b>купи всем пиццы</b>">
-                                  <img class="secret-achievements__img" src="/images/memes/1-takes-it-easy.png" width="20" height="20" />
+                                  <img alt="take-it-easy-meme" class="secret-achievements__img" src="/images/memes/1-takes-it-easy.png" width="20" height="20" />
                               </li>
+                              <% } %>
+                              <% if (challenger.secretAchievements.find(ach => ach.code === 'birthday-commit' && ach.completed)) { %>
+                                  <li class="secret-achievements__item"
+                                      data-popper
+                                      data-popper-title="Сила воли"
+                                      data-popper-description="Закоммитил в свой день рождения <b>(<%= challenger.info.birthday.toLocaleDateString('ru-RU') %>)</b>
+                                      <br />
+                                <img class='secret-achievements__full-img' src='/images/memes/2-birthday-commit@full.jpeg'>
+                                      Мужик...
+                                ">
+                                      <img alt="birhday-commit" class="secret-achievements__img" src="/images/memes/2-birthday-commit.jpeg" width="20" height="20" />
+                                  </li>
                               <% } %>
                           </ul>
                           <% } %>
