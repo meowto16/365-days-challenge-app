@@ -34,7 +34,8 @@ class Challenger {
     ]
 
     this._secretAchievements = [
-      new Achievement('takes-it-easy')
+      new Achievement('takes-it-easy'),
+      new Achievement('birthday-commit')
     ]
   }
 
@@ -104,7 +105,9 @@ class Challenger {
 
   static #getYearContributionsMap(contributionsCalendarWeeks) {
     return contributionsCalendarWeeks.reduce((map, week) => {
-      week.contributionDays.forEach(day => map.set([day.date], day.contributionCount))
+      week.contributionDays.forEach(day => {
+        map.set(day.date.toString(), day.contributionCount)
+      })
       return map
     }, new Map())
   }
@@ -236,6 +239,22 @@ class Challenger {
           })
 
           secretAchievement.progress = oneContributeIn7DaysInARow ? 100 : 0
+          secretAchievement.completed = secretAchievement.progress === 100
+
+          return
+
+        case 'birthday-commit':
+          const birthdayDate = this?.info?.birthday
+          if (!(birthdayDate instanceof Date)) return
+
+          const birthdayYear = String(birthdayDate.getFullYear())
+          const birthdayMonth = String(birthdayDate.getMonth() + 1).padStart(2, '0')
+          const birthdayDay = String(birthdayDate.getDate()).padStart(2, '0')
+
+          const birthdayContribution = this._contributions.get(`${birthdayYear}-${birthdayMonth}-${birthdayDay}`)
+          const isCommitedInBirthday = typeof birthdayContribution === 'number' && birthdayContribution >= 1
+
+          secretAchievement.progress = isCommitedInBirthday ? 100 : 0
           secretAchievement.completed = secretAchievement.progress === 100
 
           return

@@ -11,7 +11,8 @@ const challengers = [
       socials: {
         vk: 'https://vk.com/meowto16',
         github: 'https://github.com/meowto16'
-      }
+      },
+      birthday: new Date('2022-10-28'),
     },
     {
       startDate: new Date('2022-01-01')
@@ -27,7 +28,8 @@ const challengers = [
       socials: {
         vk: 'https://vk.com/e.razboinikov',
         github: 'https://github.com/e-razboinikov'
-      }
+      },
+      birthday: new Date('2022-05-22'),
     },
     {
       startDate: new Date('2022-01-01')
@@ -43,7 +45,8 @@ const challengers = [
       socials: {
         vk: 'https://vk.com/mynameisruslanbek',
         github: 'https://github.com/ruslan-bekshenev'
-      }
+      },
+      birthday: new Date('2022-01-23'),
     },
     {
       startDate: new Date('2022-01-21')
@@ -59,7 +62,8 @@ const challengers = [
       socials: {
         vk: 'https://vk.com/maqpug',
         github: 'https://github.com/maq7p'
-      }
+      },
+      birthday: new Date('2022-03-07'),
     },
     {
       startDate: new Date('2022-01-21')

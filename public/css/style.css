@@ -223,10 +223,21 @@ body {
 }
 
 .secret-achievements__item {
+  position: absolute;
   width: 30px;
   height: 30px;
   border-radius: 50%;
   border: 2px solid rgba(206, 56, 126, 0.7);
+}
+
+.secret-achievements__item:nth-child(1) {
+  bottom: -7px;
+  right: 7px;
+}
+
+.secret-achievements__item:nth-child(2) {
+  bottom: 20px;
+  right: -10px;
 }
 
 .secret-achievements__img {
