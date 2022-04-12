@@ -7,7 +7,7 @@ const challengers = [
     {
       name: 'Kirshin M.',
       avatar: '/images/maxim-kirshin.jpeg',
-      specialization: '/svg/sprite.svg#react',
+      specialization: 'react',
       socials: {
         vk: 'https://vk.com/meowto16',
         github: 'https://github.com/meowto16'
@@ -24,7 +24,7 @@ const challengers = [
     {
       name: 'Razboinikov E.',
       avatar: '/images/evgeniy-razboynikov.jpeg',
-      specialization: '/svg/sprite.svg#flutter',
+      specialization: 'flutter',
       socials: {
         vk: 'https://vk.com/e.razboinikov',
         github: 'https://github.com/e-razboinikov'
@@ -41,7 +41,7 @@ const challengers = [
     {
       name: 'Bekshenev R.',
       avatar: '/images/ruslan-bekshenev.jpg',
-      specialization: '/svg/sprite.svg#react',
+      specialization: 'react',
       socials: {
         vk: 'https://vk.com/mynameisruslanbek',
         github: 'https://github.com/ruslan-bekshenev'
@@ -58,7 +58,7 @@ const challengers = [
     {
       name: 'Petrov M.',
       avatar: '/images/maxim-petrov.jpeg',
-      specialization: '/svg/sprite.svg#react',
+      specialization: 'react',
       socials: {
         vk: 'https://vk.com/maqpug',
         github: 'https://github.com/maq7p'

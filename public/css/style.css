@@ -871,6 +871,34 @@ body {
   }
 }
 
+[data-animate-technology="react"] {
+  animation: animate-react-technology linear 15s infinite alternate;
+}
+
+[data-animate-technology="flutter"] {
+  animation: animate-flutter-technology linear 2s infinite alternate;
+}
+
+@keyframes animate-react-technology {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(365deg);
+  }
+}
+
+@keyframes animate-flutter-technology {
+  from {
+    filter: hue-rotate(345deg);
+  }
+
+  to {
+    filter: hue-rotate(370deg);
+  }
+}
+
 @keyframes scalePart1 {
   from { background: transparent }
   to { background: #71BD56; }

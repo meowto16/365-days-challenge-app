@@ -62,11 +62,11 @@
                                             <p class="card__name"><%= challenger.info.name %></p>
                                         <% } %>
                                         <% if (typeof challenger.info.specialization !== 'undefined') { %>
-                                            <span class="card__technology">
-                        <svg class="svg-fit">
-                          <use xlink:href="<%= challenger.info.specialization %>"></use>
-                        </svg>
-                      </span>
+                                            <span class="card__technology" data-animate-technology="<%= challenger.info.specialization %>">
+                                                <svg class="svg-fit">
+                                                  <use xlink:href="/svg/sprite.svg#<%= challenger.info.specialization %>"></use>
+                                                </svg>
+                                              </span>
                                         <% } %>
                                     </div>
                                     <div class="card__stats">
