@@ -4,8 +4,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const validateEnv = require('./utils/validateEnv')
+
 const indexRouter = require('./routes/index');
 const challengerRouter = require('./routes/api/challenger')
+
+validateEnv()
 
 const app = express();
 
