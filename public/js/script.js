@@ -8,8 +8,9 @@ const main = function () {
   if (tooltipNodes.length) {
     tooltipNodes.forEach(node => {
 
+      const show = (e) => {
+        e.stopPropagation()
 
-      const show = () => {
         const title = node.getAttribute('data-popper-title')
         const description = node.getAttribute('data-popper-description')
 
@@ -33,15 +34,19 @@ const main = function () {
         )
       }
 
-      const hide = () => {
+      const hide = (e) => {
+        e.stopPropagation()
+
         tooltipNode.classList.remove('tooltip--visible')
         tooltipNode.classList.add('tooltip--hidden')
       }
 
       node.addEventListener('mouseenter', show)
       node.addEventListener('focus', show)
+      node.addEventListener('click', show)
       node.addEventListener('mouseleave', hide)
       node.addEventListener('blur', hide)
+      document.body.addEventListener('click', hide)
     })
   }
 }
