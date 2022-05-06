@@ -1,24 +1,40 @@
 const main = async function () {
-  const challengers = document.querySelectorAll('.js-challenger')
-  const response = await API.fetchChallengersFullInfo()
+  fillCurrentDate()
 
-  console.log(response)
+  const challengers = document.querySelectorAll('.js-challenger')
+
+  const response = await API.fetchChallengersFullInfo()
 
   activateTooltips()
 }
 
 function fillCurrentDate() {
   const timeNode = document.querySelector('.js-header-time')
+  const time = {
+    datetime: new Date().toISOString().split('T')[0],
+    datatype: 'YYYY-MM-DD',
+    humantime: new Date().toDateString()
+  }
 
+  timeNode.setAttribute('datetime', time.datetime)
+  timeNode.setAttribute('datatype', time.datatype)
+  timeNode.textContent = time.humantime
 }
 
 function fillChallengerStats(challenger, stats) {
-  const { currentStreak, contributionsPerDay, totalContributes, daysMissed } = stats
+  const { currentStreak, contributionsPerDay, totalContributes, daysMissed } =
+    stats
 
   const statsNode = challenger.querySelector('.js-challenger-stats')
-  const currentStreakNode = statsNode.querySelector('.js-challenger-current-streak')
-  const contributionsPerDayNode = statsNode.querySelector('.js-challenger-contributions-per-day')
-  const totalContributesNode = statsNode.querySelector('.js-challenger-total-contributes')
+  const currentStreakNode = statsNode.querySelector(
+    '.js-challenger-current-streak'
+  )
+  const contributionsPerDayNode = statsNode.querySelector(
+    '.js-challenger-contributions-per-day'
+  )
+  const totalContributesNode = statsNode.querySelector(
+    '.js-challenger-total-contributes'
+  )
   const daysMissedNode = statsNode.querySelector('.js-challenger-days-missed')
 
   const statsMap = [
@@ -35,20 +51,19 @@ function fillChallengerStats(challenger, stats) {
   })
 }
 
-function fillChallengerActivity(challenger, activity) {
-
-}
+function fillChallengerActivity(challenger, activity) {}
 
 function activateTooltips() {
   const tooltipNodes = [...document.querySelectorAll('[data-popper]')]
 
   const tooltipNode = document.querySelector('.tooltip')
   const tooltipTitle = tooltipNode.querySelector('.js-tooltip-title')
-  const tooltipDescription = tooltipNode.querySelector('.js-tooltip-description')
+  const tooltipDescription = tooltipNode.querySelector(
+    '.js-tooltip-description'
+  )
 
   if (tooltipNodes.length) {
-    tooltipNodes.forEach(node => {
-
+    tooltipNodes.forEach((node) => {
       const show = (e) => {
         e.stopPropagation()
 
@@ -62,17 +77,16 @@ function activateTooltips() {
         tooltipNode.classList.add('tooltip--visible')
 
         Popper.createPopper(node, tooltipNode, {
-            placement: 'top',
-            modifiers: [
-              {
-                name: 'offset',
-                options: {
-                  offset: [0, 8],
-                },
-              },
-            ]
-          }
-        )
+          placement: 'top',
+          modifiers: [
+            {
+              name: 'offset',
+              options: {
+                offset: [0, 8]
+              }
+            }
+          ]
+        })
       }
 
       const hide = (e) => {
@@ -95,7 +109,7 @@ function activateTooltips() {
 class API {
   static _baseURL = '/api/challenger'
 
-  static async fetchChallengersFullInfo () {
+  static async fetchChallengersFullInfo() {
     try {
       await fetch(`${API._baseURL}/full-info`)
     } catch (e) {
