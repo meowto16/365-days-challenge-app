@@ -1,4 +1,45 @@
-const main = function () {
+const main = async function () {
+  const challengers = document.querySelectorAll('.js-challenger')
+  const response = await API.fetchChallengersFullInfo()
+
+  console.log(response)
+
+  activateTooltips()
+}
+
+function fillCurrentDate() {
+  const timeNode = document.querySelector('.js-header-time')
+
+}
+
+function fillChallengerStats(challenger, stats) {
+  const { currentStreak, contributionsPerDay, totalContributes, daysMissed } = stats
+
+  const statsNode = challenger.querySelector('.js-challenger-stats')
+  const currentStreakNode = statsNode.querySelector('.js-challenger-current-streak')
+  const contributionsPerDayNode = statsNode.querySelector('.js-challenger-contributions-per-day')
+  const totalContributesNode = statsNode.querySelector('.js-challenger-total-contributes')
+  const daysMissedNode = statsNode.querySelector('.js-challenger-days-missed')
+
+  const statsMap = [
+    [currentStreak, currentStreakNode],
+    [contributionsPerDay, contributionsPerDayNode],
+    [totalContributes, totalContributesNode],
+    [daysMissed, daysMissedNode]
+  ]
+
+  statsMap.forEach(([stat, statNode]) => {
+    if (!statNode) return
+
+    statNode.innerText = stat
+  })
+}
+
+function fillChallengerActivity(challenger, activity) {
+
+}
+
+function activateTooltips() {
   const tooltipNodes = [...document.querySelectorAll('[data-popper]')]
 
   const tooltipNode = document.querySelector('.tooltip')
@@ -48,6 +89,18 @@ const main = function () {
       node.addEventListener('blur', hide)
       document.body.addEventListener('click', hide)
     })
+  }
+}
+
+class API {
+  static _baseURL = '/api/challenger'
+
+  static async fetchChallengersFullInfo () {
+    try {
+      await fetch(`${API._baseURL}/full-info`)
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
 

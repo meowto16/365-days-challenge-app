@@ -1,25 +1,38 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const { challengers, fetchChallengers } = require('../../constants/challengers')
 
 router.get('/check-contributes-today', async (req, res) => {
   await fetchChallengers()
 
-  const { contributed, notContributed } = challengers.reduce((acc, challenger) => {
-    acc[challenger.checkHaveContributesToday() ? 'contributed' : 'notContributed'].push({
-      github: challenger.github,
-      vk: challenger.vk,
-      info: challenger.info,
-      stats: challenger.stats,
-    })
-    return acc
-  }, { contributed: [], notContributed: [] })
+  const { contributed, notContributed } = challengers.reduce(
+    (acc, challenger) => {
+      acc[
+        challenger.checkHaveContributesToday()
+          ? 'contributed'
+          : 'notContributed'
+      ].push({
+        github: challenger.github,
+        vk: challenger.vk,
+        info: challenger.info,
+        stats: challenger.stats
+      })
+      return acc
+    },
+    { contributed: [], notContributed: [] }
+  )
 
   res.json({
     contributed,
-    notContributed,
+    notContributed
   })
+})
+
+router.get('/full-info', async (req, res) => {
+  const response = await fetchChallengers()
+
+  res.json(response)
 })
 
 module.exports = router
