@@ -1,9 +1,17 @@
 const main = async function () {
   fillCurrentDate()
 
-  const challengers = document.querySelectorAll('.js-challenger')
+  const challengersNodes = document.querySelectorAll('.js-challenger')
+  const challengersInfo = await API.fetchChallengersFullInfo()
 
-  const response = await API.fetchChallengersFullInfo()
+  challengersNodes.forEach((challengerNode) => {
+    const github = challengerNode.dataset.challengerGithub
+    const data = challengersInfo[github]
+
+    console.log(data)
+
+    fillChallengerStats(challengerNode, data.stats)
+  })
 
   activateTooltips()
 }
@@ -111,7 +119,11 @@ class API {
 
   static async fetchChallengersFullInfo() {
     try {
-      await fetch(`${API._baseURL}/full-info`)
+      return new Promise((resolve, reject) => {
+        fetch(`${API._baseURL}/full-info`)
+          .then((response) => resolve(response.json()))
+          .catch((err) => reject(err))
+      })
     } catch (e) {
       console.error(e)
     }
