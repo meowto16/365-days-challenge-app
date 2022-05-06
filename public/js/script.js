@@ -1,4 +1,6 @@
 const main = async function () {
+  registerServiceWorker()
+
   fillCurrentDate()
 
   const challengersNodes = document.querySelectorAll('.js-challenger')
@@ -179,6 +181,19 @@ function activateTooltips() {
       node.addEventListener('blur', hide)
       document.body.addEventListener('click', hide)
     })
+  }
+}
+
+function registerServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+      .register('/service-worker.js')
+      .then(function (registration) {
+        console.log('Registration successful, scope is:', registration.scope)
+      })
+      .catch(function (error) {
+        console.log('Service worker registration failed, error:', error)
+      })
   }
 }
 
