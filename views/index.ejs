@@ -119,9 +119,10 @@
                 </div>
                 <div class="card__right">
 
-                  <div class="card__rating js-challenger-rating" data-loading>
+                  <div class="card__rating">
                     <div>
-                        <ul class="rating"
+                        <ul class="rating js-challenger-rating"
+                            data-loading
                             data-popper
                             data-popper-title="User rating"
                             data-popper-description="
@@ -144,14 +145,14 @@
                     </div>
                     <p class="card__title">Last week activity</p>
                   </div>
-                  <div class="card__activity" data-loading>
-                    <ul class="activity">
+                  <div class="card__activity">
+                    <ul class="activity js-challenger-activity" data-loading>
                         <% for (let i = 0; i < 7; i++) { %>
-                            <li class="activity__item">
-                                <span class="activity__title">&nbsp;</span>
-                                <span class="activity__scale">
+                            <li class="activity__item js-challenger-activity-item">
+                                <span class="activity__title js-challenger-activity-title">&nbsp;</span>
+                                <span class="activity__scale js-challenger-activity-scale">
                                     <% for (let i = 6; i >= 1; i--) { %>
-                                        <span class="activity__scale-part activity__scale-part--empty"></span>
+                                        <span class="activity__scale-part activity__scale-part--empty js-challenger-activity-scale-part"></span>
                                     <% } %>
                                 </span>
                             </li>

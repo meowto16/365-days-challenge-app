@@ -642,8 +642,21 @@ body {
   transition: opacity 0.15s ease-in;
 }
 
-[data-loading].card__rating .rating__star svg {
+[data-loading].rating .rating__star svg {
   animation: infinite starLoading 1s ease-in-out;
+}
+
+.activity .activity__title {
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
+
+[data-loading].activity .activity__title {
+  opacity: 0;
+}
+
+[data-loading].activity .activity__scale-part {
+  animation: infinite scalePartLoading 1s ease-in-out;
 }
 
 @media (min-width: 0px) and (max-width: 767px) {
@@ -858,6 +871,14 @@ body {
 @keyframes scalePartWarning5 {
   from { background: transparent }
   to { background: rgba(255, 246, 35, 0.4); }
+}
+
+@keyframes scalePartLoading {
+  0% { background-color: #fff; }
+  25% { background-color: #fcfcfc; }
+  50% { background-color: #fbfbfb; }
+  75% { background-color: #fcfcfc; }
+  100% { background-color: #fff; }
 }
 
 @keyframes starLoading {

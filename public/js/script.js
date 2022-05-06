@@ -8,10 +8,9 @@ const main = async function () {
     const github = challengerNode.dataset.challengerGithub
     const data = challengersInfo[github]
 
-    console.log(data)
-
     fillChallengerStats(challengerNode, data.stats)
     fillChallengerRating(challengerNode, data.rating)
+    fillChallengerActivity(challengerNode, data.activity)
   })
 
   activateTooltips()
@@ -78,7 +77,57 @@ function fillChallengerRating(challenger, rating) {
   })
 }
 
-function fillChallengerActivity(challenger, activity) {}
+function fillChallengerActivity(challenger, activity) {
+  const activityEntries = Object.entries(activity)
+
+  const activityNode = challenger.querySelector('.js-challenger-activity')
+  const activityItemsNodes = activityNode.querySelectorAll(
+    '.js-challenger-activity-item'
+  )
+
+  delete activityNode.dataset.loading
+
+  activityItemsNodes.forEach((activityItemNode, idx) => {
+    const [day, data] = activityEntries[idx]
+    const titleNode = activityItemNode.querySelector(
+      '.js-challenger-activity-title'
+    )
+    titleNode.textContent = day
+
+    activityItemNode.setAttribute('data-popper', '')
+    activityItemNode.setAttribute('data-popper-title', data.date)
+    activityItemNode.setAttribute('data-popper-description', data.contributes)
+
+    const scalePartNode = activityItemNode.querySelector(
+      '.js-challenger-activity-scale'
+    )
+
+    scalePartNode.classList.add(
+      {
+        0: 'activity__scale--danger',
+        1: 'activity__scale--warning',
+        2: 'activity__scale--warning',
+        3: 'activity__scale--warning',
+        4: 'activity__scale--default',
+        5: 'activity__scale--default',
+        6: 'activity__scale--default'
+      }[data.activity]
+    )
+
+    const scalePartsNodes = activityItemNode.querySelectorAll(
+      '.js-challenger-activity-scale-part'
+    )
+
+    ;[...scalePartsNodes].reverse().forEach((scaleNode, idx) => {
+      if (idx < data.activity) {
+        scaleNode.classList.replace(
+          'activity__scale-part--empty',
+          'activity__scale-part--filled'
+        )
+      }
+    })
+  })
+}
 
 function activateTooltips() {
   const tooltipNodes = [...document.querySelectorAll('[data-popper]')]
