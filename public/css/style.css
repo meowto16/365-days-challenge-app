@@ -642,6 +642,10 @@ body {
   transition: opacity 0.15s ease-in;
 }
 
+[data-loading].card__rating .rating__star svg {
+  animation: infinite starLoading 1s ease-in-out;
+}
+
 @media (min-width: 0px) and (max-width: 767px) {
   body {
     font-size: 14px;
@@ -854,6 +858,14 @@ body {
 @keyframes scalePartWarning5 {
   from { background: transparent }
   to { background: rgba(255, 246, 35, 0.4); }
+}
+
+@keyframes starLoading {
+  0% { fill: #EEE; }
+  25% { fill: #e5e5e5; }
+  50% { fill: #e3e3e3; }
+  75% { fill: #e5e5e5; }
+  100% { fill: #EEE; }
 }
 
 @keyframes starFill {

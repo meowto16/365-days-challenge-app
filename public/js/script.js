@@ -11,6 +11,7 @@ const main = async function () {
     console.log(data)
 
     fillChallengerStats(challengerNode, data.stats)
+    fillChallengerRating(challengerNode, data.rating)
   })
 
   activateTooltips()
@@ -58,6 +59,22 @@ function fillChallengerStats(challenger, stats) {
 
     statNode.innerText = stat
     delete statNode.dataset.loading
+  })
+}
+
+function fillChallengerRating(challenger, rating) {
+  const ratingNode = challenger.querySelector('.js-challenger-rating')
+  const starsNodes = ratingNode.querySelectorAll('.js-challenger-rating-star')
+
+  delete ratingNode.dataset.loading
+
+  starsNodes.forEach((starNode, idx) => {
+    if (idx < rating) {
+      starNode.classList.replace(
+        'rating__star--default',
+        'rating__star--filled'
+      )
+    }
   })
 }
 
