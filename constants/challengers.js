@@ -1,4 +1,4 @@
-const Challenger = require("../models/Challenger");
+const Challenger = require('../models/Challenger')
 
 const challengers = [
   new Challenger(
@@ -12,7 +12,7 @@ const challengers = [
         vk: 'https://vk.com/meowto16',
         github: 'https://github.com/meowto16'
       },
-      birthday: new Date('2022-10-28'),
+      birthday: new Date('2022-10-28')
     },
     {
       startDate: new Date('2022-01-01')
@@ -29,7 +29,7 @@ const challengers = [
         vk: 'https://vk.com/e.razboinikov',
         github: 'https://github.com/e-razboinikov'
       },
-      birthday: new Date('2022-05-22'),
+      birthday: new Date('2022-05-22')
     },
     {
       startDate: new Date('2022-01-01')
@@ -46,7 +46,7 @@ const challengers = [
         vk: 'https://vk.com/mynameisruslanbek',
         github: 'https://github.com/ruslan-bekshenev'
       },
-      birthday: new Date('2022-01-23'),
+      birthday: new Date('2022-01-23')
     },
     {
       startDate: new Date('2022-01-21')
@@ -63,17 +63,24 @@ const challengers = [
         vk: 'https://vk.com/maqpug',
         github: 'https://github.com/maq7p'
       },
-      birthday: new Date('2022-03-07'),
+      birthday: new Date('2022-03-07')
     },
     {
       startDate: new Date('2022-01-21')
     }
   )
 ]
+
 const fetchChallengers = async () => {
-  await Promise.all(
-    challengers.map(challenger => challenger.getFullInformation())
+  const response = await Promise.all(
+    challengers.map((challenger) => challenger.getFullInformation())
   )
+
+  return challengers.reduce((acc, challenger, idx) => {
+    acc[challenger.github] = response[idx]
+
+    return acc
+  }, {})
 }
 
 module.exports = {

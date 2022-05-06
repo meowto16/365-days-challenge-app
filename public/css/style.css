@@ -623,6 +623,42 @@ body {
   bottom: -4px;
 }
 
+/* LOADERS */
+.header__time {
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
+
+[data-loading].header__time {
+  opacity: 0;
+}
+
+[data-loading].card__statistic-item {
+  opacity: 0;
+}
+
+.card__statistic-item {
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
+
+[data-loading].rating .rating__star svg {
+  animation: infinite starLoading 1s ease-in-out;
+}
+
+.activity .activity__title {
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
+
+[data-loading].activity .activity__title {
+  opacity: 0;
+}
+
+[data-loading].activity .activity__scale-part {
+  animation: infinite scalePartLoading 1s ease-in-out;
+}
+
 @media (min-width: 0px) and (max-width: 767px) {
   body {
     font-size: 14px;
@@ -676,7 +712,7 @@ body {
   }
 
   .card__stats {
-    text-align: right;
+    text-align: left;
   }
 
   .card__left::before, .card__left::after {
@@ -835,6 +871,22 @@ body {
 @keyframes scalePartWarning5 {
   from { background: transparent }
   to { background: rgba(255, 246, 35, 0.4); }
+}
+
+@keyframes scalePartLoading {
+  0% { background-color: #fff; }
+  25% { background-color: #fcfcfc; }
+  50% { background-color: #fbfbfb; }
+  75% { background-color: #fcfcfc; }
+  100% { background-color: #fff; }
+}
+
+@keyframes starLoading {
+  0% { fill: #EEE; }
+  25% { fill: #e5e5e5; }
+  50% { fill: #e3e3e3; }
+  75% { fill: #e5e5e5; }
+  100% { fill: #EEE; }
 }
 
 @keyframes starFill {

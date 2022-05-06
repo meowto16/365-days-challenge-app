@@ -23,11 +23,9 @@
           </div>
         </div>
         <div class="header__date">
-          <% if (typeof time !== 'undefined') { %>
-            <time class="header__time" datetime="<%= time.datetime %>" datatype="<%= time.datatype %>">
-              <%= time.humantime %>
+            <time class="header__time js-header-time" data-loading>
+
             </time>
-          <% } %>
         </div>
       </div>
     </div>
@@ -40,7 +38,7 @@
         <h2 class="challengers__title">Challengers</h2>
         <div class="challengers__container">
           <% challengers.map(challenger => { %>
-            <div class="challenger__card">
+            <div class="challenger__card js-challenger" data-challenger-github="<%= challenger.github %>">
               <div class="card">
                 <div class="card__left">
                   <div class="card__info">
@@ -50,34 +48,8 @@
                                width="100"
                                height="100"
                                src="<%= challenger.info.avatar %>"
-                               alt="<%= challenger.info.name %>"/>
-                          <% if (typeof challenger.secretAchievements.some(achievement => achievement.completed)) { %>
-                          <ul class="secret-achievements">
-                              <% if (challenger.secretAchievements.find(ach => ach.code === 'takes-it-easy' && ach.completed)) { %>
-                              <li class="secret-achievements__item"
-                                  data-popper
-                                  data-popper-title="На расслабоне"
-                                  data-popper-description="
-                                    За неделю 7 контрибьютов...
-                                    <img class='secret-achievements__full-img' src='/images/memes/1-takes-it-easy@full.png'>
-                                    Лишь бы не проиграть пиццу? Не позорься и <b>купи всем пиццы</b>">
-                                  <img alt="take-it-easy-meme" class="secret-achievements__img" src="/images/memes/1-takes-it-easy.png" width="20" height="20" />
-                              </li>
-                              <% } %>
-                              <% if (challenger.secretAchievements.find(ach => ach.code === 'birthday-commit' && ach.completed)) { %>
-                                  <li class="secret-achievements__item"
-                                      data-popper
-                                      data-popper-title="Сила воли"
-                                      data-popper-description="Закоммитил в свой день рождения <b>(<%= challenger.info.birthday.toLocaleDateString('ru-RU') %>)</b>
-                                      <br />
-                                <img class='secret-achievements__full-img' src='/images/memes/2-birthday-commit@full.jpeg'>
-                                      Мужик...
-                                ">
-                                      <img alt="birhday-commit" class="secret-achievements__img" src="/images/memes/2-birthday-commit.jpeg" width="20" height="20" />
-                                  </li>
-                              <% } %>
-                          </ul>
-                          <% } %>
+                               alt="<%= challenger.info.name %>"
+                          />
                       </div>
                     <% } %>
                     <% if (typeof challenger.info.name !== 'undefined') { %>
@@ -85,34 +57,21 @@
                     <% } %>
                     <% if (typeof challenger.info.specialization !== 'undefined') { %>
                       <span class="card__technology">
-                  <svg class="svg-fit">
-                    <use xlink:href="<%= challenger.info.specialization %>"></use>
-                  </svg>
-                </span>
+                        <svg class="svg-fit">
+                          <use xlink:href="<%= challenger.info.specialization %>"></use>
+                        </svg>
+                      </span>
                     <% } %>
                   </div>
-                  <% if (typeof challenger.stats !== 'undefined') { %>
                     <div class="card__stats">
-                      <p class="card__title">Current stats</p>
-                      <ul class="card__statistic">
-                        <% if (typeof challenger.stats.currentStreak === 'string') { %>
-                          <li><strong>Current streak: </strong><%= challenger.stats.currentStreak %></li>
-                        <% } %>
-                        <% if (typeof challenger.stats.contributionsPerDay === 'string') { %>
-                          <li><strong>Contributions per day: </strong><%= challenger.stats.contributionsPerDay %></li>
-                        <% } %>
-                        <% if (typeof challenger.stats.totalContributes === 'string') { %>
-                            <li><strong>Total contributes: </strong><%= challenger.stats.totalContributes %></li>
-                        <% } %>
-                        <% if (typeof challenger.stats.lastActive === 'string') { %>
-                          <li><strong>Last active: </strong><%= challenger.stats.lastActive %></li>
-                        <% } %>
-                        <% if (typeof challenger.stats.daysMissed === 'string') { %>
-                          <li><strong>Days missed: </strong><%= challenger.stats.daysMissed %></li>
-                        <% } %>
-                      </ul>
+                        <p class="card__title">Current stats</p>
+                        <ul class="card__statistic js-challenger-stats">
+                            <li><strong>Current streak: </strong><span class="card__statistic-item js-challenger-current-streak" data-loading>...</span></li>
+                            <li><strong>Contributions per day: </strong><span class="card__statistic-item js-challenger-contributions-per-day" data-loading>...</span></li>
+                            <li><strong>Total contributes: </strong><span class="card__statistic-item js-challenger-total-contributes" data-loading>...</span></li>
+                            <li><strong>Days missed: </strong><span class="card__statistic-item js-challenger-days-missed" data-loading>...</span></li>
+                        </ul>
                     </div>
-                  <% } %>
 
                   <% if (typeof challenger.achievements !== 'undefined' && !!challenger.achievements?.length) { %>
                     <div class="card__achievements">
@@ -120,15 +79,12 @@
                       <div class="achievements">
                         <ul class="achievements__list">
                           <% challenger.achievements.map(achievement => { %>
-                            <li class="achievements__item <%= achievement.completed ? 'achievements__item--completed' : 'achievements__item--default' %>"
-                                data-popper
-                                data-popper-title="<%= achievement.completed ? '✔ ' : ''%><%= achievement.name %>"
-                                data-popper-description="<%= achievement.description %>">
+                            <li class="achievements__item">
                                 <svg width="40" height="40" class="achievements__progress achievements__progress--bg" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="20" cy="20" r="18" stroke-dasharray="113" stroke-dashoffset="0" />
                                 </svg>
                                 <svg width="40" height="40" class="achievements__progress" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="20" cy="20" r="18" stroke-dasharray="113" stroke-dashoffset="<%= 100 - achievement.progress%>" />
+                                    <circle cx="20" cy="20" r="18" stroke-dasharray="113" stroke-dashoffset="113" />
                                 </svg>
                                 <svg width="40" height="40" class="achievements__progress achievements__progress--overlay" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="20" cy="20" r="18" stroke-dasharray="113" stroke-dashoffset="0" />
@@ -164,9 +120,9 @@
                 <div class="card__right">
 
                   <div class="card__rating">
-                      <% if (typeof challenger.rating === 'number') { %>
                     <div>
-                        <ul class="rating"
+                        <ul class="rating js-challenger-rating"
+                            data-loading
                             data-popper
                             data-popper-title="User rating"
                             data-popper-description="
@@ -179,7 +135,7 @@
                                 <br>★ 5 - 40 contributes
                             ">
                           <% for (let i = 1; i <= 5; i++) { %>
-                            <li class="rating__star rating__star--<%= i <= challenger.rating ? 'filled' : 'default' %>">
+                            <li class="rating__star rating__star--default js-challenger-rating-star%>">
                               <svg class="svg-fit">
                                 <use xlink:href="/svg/sprite.svg#star"></use>
                               </svg>
@@ -187,36 +143,22 @@
                           <% } %>
                         </ul>
                     </div>
-                          <% } %>
                     <p class="card__title">Last week activity</p>
                   </div>
-
-                  <% if (typeof challenger.activity !== 'undefined') { %>
                   <div class="card__activity">
-                    <ul class="activity">
-                      <% Object.keys(challenger.activity).map(day => { %>
-                        <li class="activity__item"
-                            data-popper
-                            data-popper-title="<%= challenger.activity[day].date %>"
-                            data-popper-description="<%= challenger.activity[day].contributes %>"
-                        >
-                          <span class="activity__title"><%= day %></span>
-                          <span class="<%= (() => {
-                            const classes = ['activity__scale']
-                            const activity = challenger.activity[day].activity
-                            if (activity <= 2 && activity > 0) classes.push('activity__scale--warning')
-                            if (activity === 0) classes.push('activity__scale--danger')
-                            return classes.join(' ')
-                          })() %>">
-                            <% for (let i = 6; i >= 1; i--) { %>
-                              <span class="activity__scale-part activity__scale-part--<%= i <= challenger.activity[day].activity ? 'filled' : 'empty' %>"></span>
-                            <% } %>
-                          </span>
-                        </li>
-                      <% }) %>
+                    <ul class="activity js-challenger-activity" data-loading>
+                        <% for (let i = 0; i < 7; i++) { %>
+                            <li class="activity__item js-challenger-activity-item">
+                                <span class="activity__title js-challenger-activity-title">&nbsp;</span>
+                                <span class="activity__scale js-challenger-activity-scale">
+                                    <% for (let i = 6; i >= 1; i--) { %>
+                                        <span class="activity__scale-part activity__scale-part--empty js-challenger-activity-scale-part"></span>
+                                    <% } %>
+                                </span>
+                            </li>
+                        <% } %>
                     </ul>
                   </div>
-                  <% } %>
                 </div>
               </div>
             </div>

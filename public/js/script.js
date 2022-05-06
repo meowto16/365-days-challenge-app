@@ -1,13 +1,145 @@
-const main = function () {
+const main = async function () {
+  fillCurrentDate()
+
+  const challengersNodes = document.querySelectorAll('.js-challenger')
+  const challengersInfo = await API.fetchChallengersFullInfo()
+
+  challengersNodes.forEach((challengerNode) => {
+    const github = challengerNode.dataset.challengerGithub
+    const data = challengersInfo[github]
+
+    fillChallengerStats(challengerNode, data.stats)
+    fillChallengerRating(challengerNode, data.rating)
+    fillChallengerActivity(challengerNode, data.activity)
+  })
+
+  activateTooltips()
+}
+
+function fillCurrentDate() {
+  const timeNode = document.querySelector('.js-header-time')
+  const time = {
+    datetime: new Date().toISOString().split('T')[0],
+    datatype: 'YYYY-MM-DD',
+    humantime: new Date().toDateString()
+  }
+
+  timeNode.setAttribute('datetime', time.datetime)
+  timeNode.setAttribute('datatype', time.datatype)
+  timeNode.textContent = time.humantime
+  delete timeNode.dataset.loading
+}
+
+function fillChallengerStats(challenger, stats) {
+  const { currentStreak, contributionsPerDay, totalContributes, daysMissed } =
+    stats
+
+  const statsNode = challenger.querySelector('.js-challenger-stats')
+  const currentStreakNode = statsNode.querySelector(
+    '.js-challenger-current-streak'
+  )
+  const contributionsPerDayNode = statsNode.querySelector(
+    '.js-challenger-contributions-per-day'
+  )
+  const totalContributesNode = statsNode.querySelector(
+    '.js-challenger-total-contributes'
+  )
+  const daysMissedNode = statsNode.querySelector('.js-challenger-days-missed')
+
+  const statsMap = [
+    [currentStreak, currentStreakNode],
+    [contributionsPerDay, contributionsPerDayNode],
+    [totalContributes, totalContributesNode],
+    [daysMissed, daysMissedNode]
+  ]
+
+  statsMap.forEach(([stat, statNode]) => {
+    if (!statNode) return
+
+    statNode.innerText = stat
+    delete statNode.dataset.loading
+  })
+}
+
+function fillChallengerRating(challenger, rating) {
+  const ratingNode = challenger.querySelector('.js-challenger-rating')
+  const starsNodes = ratingNode.querySelectorAll('.js-challenger-rating-star')
+
+  delete ratingNode.dataset.loading
+
+  starsNodes.forEach((starNode, idx) => {
+    if (idx < rating) {
+      starNode.classList.replace(
+        'rating__star--default',
+        'rating__star--filled'
+      )
+    }
+  })
+}
+
+function fillChallengerActivity(challenger, activity) {
+  const activityEntries = Object.entries(activity)
+
+  const activityNode = challenger.querySelector('.js-challenger-activity')
+  const activityItemsNodes = activityNode.querySelectorAll(
+    '.js-challenger-activity-item'
+  )
+
+  delete activityNode.dataset.loading
+
+  activityItemsNodes.forEach((activityItemNode, idx) => {
+    const [day, data] = activityEntries[idx]
+    const titleNode = activityItemNode.querySelector(
+      '.js-challenger-activity-title'
+    )
+    titleNode.textContent = day
+
+    activityItemNode.setAttribute('data-popper', '')
+    activityItemNode.setAttribute('data-popper-title', data.date)
+    activityItemNode.setAttribute('data-popper-description', data.contributes)
+
+    const scalePartNode = activityItemNode.querySelector(
+      '.js-challenger-activity-scale'
+    )
+
+    scalePartNode.classList.add(
+      {
+        0: 'activity__scale--danger',
+        1: 'activity__scale--warning',
+        2: 'activity__scale--warning',
+        3: 'activity__scale--warning',
+        4: 'activity__scale--default',
+        5: 'activity__scale--default',
+        6: 'activity__scale--default'
+      }[data.activity]
+    )
+
+    const scalePartsNodes = activityItemNode.querySelectorAll(
+      '.js-challenger-activity-scale-part'
+    )
+
+    ;[...scalePartsNodes].reverse().forEach((scaleNode, idx) => {
+      if (idx < data.activity) {
+        scaleNode.classList.replace(
+          'activity__scale-part--empty',
+          'activity__scale-part--filled'
+        )
+      }
+    })
+  })
+}
+
+function activateTooltips() {
   const tooltipNodes = [...document.querySelectorAll('[data-popper]')]
 
   const tooltipNode = document.querySelector('.tooltip')
   const tooltipTitle = tooltipNode.querySelector('.js-tooltip-title')
-  const tooltipDescription = tooltipNode.querySelector('.js-tooltip-description')
+  const tooltipDescription = tooltipNode.querySelector(
+    '.js-tooltip-description'
+  )
 
   if (tooltipNodes.length) {
-    tooltipNodes.forEach(node => {
-
+    tooltipNodes.forEach((node) => {
       const show = (e) => {
         e.stopPropagation()
 
@@ -21,17 +153,16 @@ const main = function () {
         tooltipNode.classList.add('tooltip--visible')
 
         Popper.createPopper(node, tooltipNode, {
-            placement: 'top',
-            modifiers: [
-              {
-                name: 'offset',
-                options: {
-                  offset: [0, 8],
-                },
-              },
-            ]
-          }
-        )
+          placement: 'top',
+          modifiers: [
+            {
+              name: 'offset',
+              options: {
+                offset: [0, 8]
+              }
+            }
+          ]
+        })
       }
 
       const hide = (e) => {
@@ -48,6 +179,22 @@ const main = function () {
       node.addEventListener('blur', hide)
       document.body.addEventListener('click', hide)
     })
+  }
+}
+
+class API {
+  static _baseURL = '/api/challenger'
+
+  static async fetchChallengersFullInfo() {
+    try {
+      return new Promise((resolve, reject) => {
+        fetch(`${API._baseURL}/full-info`)
+          .then((response) => resolve(response.json()))
+          .catch((err) => reject(err))
+      })
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
 
