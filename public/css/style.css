@@ -623,6 +623,25 @@ body {
   bottom: -4px;
 }
 
+/* LOADERS */
+.header__time {
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
+
+[data-loading].header__time {
+  opacity: 0;
+}
+
+[data-loading].card__statistic-item {
+  opacity: 0;
+}
+
+.card__statistic-item {
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
+
 @media (min-width: 0px) and (max-width: 767px) {
   body {
     font-size: 14px;

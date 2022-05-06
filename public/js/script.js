@@ -27,6 +27,7 @@ function fillCurrentDate() {
   timeNode.setAttribute('datetime', time.datetime)
   timeNode.setAttribute('datatype', time.datatype)
   timeNode.textContent = time.humantime
+  delete timeNode.dataset.loading
 }
 
 function fillChallengerStats(challenger, stats) {
@@ -56,6 +57,7 @@ function fillChallengerStats(challenger, stats) {
     if (!statNode) return
 
     statNode.innerText = stat
+    delete statNode.dataset.loading
   })
 }
 
