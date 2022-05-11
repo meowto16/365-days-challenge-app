@@ -1,3 +1,5 @@
+'use strict'
+
 const main = async function () {
   registerServiceWorker()
 
@@ -15,7 +17,7 @@ const main = async function () {
     fillChallengerActivity(challengerNode, data.activity)
   })
 
-  activateTooltips()
+  await activateTooltips()
 }
 
 function fillCurrentDate() {
@@ -131,7 +133,9 @@ function fillChallengerActivity(challenger, activity) {
   })
 }
 
-function activateTooltips() {
+async function activateTooltips() {
+  await loadScript('/vendor/popper.min.js')
+
   const tooltipNodes = [...document.querySelectorAll('[data-popper]')]
 
   const tooltipNode = document.querySelector('.tooltip')
@@ -187,7 +191,7 @@ function activateTooltips() {
 function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
-      .register('/service-worker.js')
+      .register('/sw.js')
       .then(function (registration) {
         console.log('Registration successful, scope is:', registration.scope)
       })
@@ -195,6 +199,20 @@ function registerServiceWorker() {
         console.log('Service worker registration failed, error:', error)
       })
   }
+}
+
+async function loadScript(path) {
+  const script = document.createElement('script')
+  script.type = 'text/javascript'
+  script.src = path
+  script.async = true
+  document.head.appendChild(script)
+  script.remove()
+
+  return new Promise((resolve, reject) => {
+    script.onload = resolve
+    script.onerror = reject
+  })
 }
 
 class API {
