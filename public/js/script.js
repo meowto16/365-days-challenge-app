@@ -22,6 +22,7 @@ async function fetchAndFillInfo() {
     fillChallengerStats(challengerNode, data.stats)
     fillChallengerRating(challengerNode, data.rating)
     fillChallengerActivity(challengerNode, data.activity)
+    fillChallengerAchievements(challengerNode, data.achievements)
   })
 }
 
@@ -136,6 +137,50 @@ function fillChallengerActivity(challenger, activity) {
       }
     })
   })
+}
+
+function fillChallengerAchievements(challenger, achievements) {
+  const achievementsNode = challenger.querySelector(
+    '.js-challenger-achievements'
+  )
+  const achievementsListNode = challenger.querySelector(
+    '.js-challenger-achievements-list'
+  )
+
+  delete achievementsNode.dataset.loading
+
+  Object.entries(achievements).forEach(
+    ([achievement, { progress, completed, name, description }]) => {
+      const achievementNode = achievementsListNode.querySelector(
+        `[data-challenger-achievement="${achievement}"]`
+      )
+
+      if (!achievementNode) {
+        return
+      }
+
+      const progressCircleNode = achievementNode.querySelector(
+        '.js-achievement-progress-circle'
+      )
+
+      achievementNode.classList.add(
+        completed
+          ? 'achievements__item--completed'
+          : 'achievements__item--default'
+      )
+      achievementNode.dataset.popper = true
+      achievementNode.dataset.popperTitle = `${
+        achievement.completed ? '✔ ' : ''
+      }${name}`
+      achievementNode.dataset.popperDescription = description
+
+      if (!progressCircleNode) {
+        return
+      }
+
+      progressCircleNode.setAttribute('stroke-dashoffset', `${100 - progress}`)
+    }
+  )
 }
 
 async function activateTooltips() {

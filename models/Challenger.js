@@ -323,7 +323,9 @@ class Challenger {
 
       acc[achievement.code] = {
         progress,
-        completed: progress === 100
+        completed: progress === 100,
+        name: achievement.name,
+        description: achievement.description
       }
 
       return acc
