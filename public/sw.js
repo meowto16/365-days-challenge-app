@@ -1,8 +1,4 @@
-importScripts(
-  'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js'
-)
-
-const CACHE_NAME = '365-days-challenge-app-version-1.0.0'
+const CACHE_NAME = '365-days-challenge-app-version-1.0.1'
 
 const urlsToCache = ['/']
 

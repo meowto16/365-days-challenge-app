@@ -3,6 +3,13 @@
 const main = async function () {
   registerServiceWorker()
 
+  await fetchAndFillInfo()
+
+  await activateTooltips()
+  await activatePullToRefresh()
+}
+
+async function fetchAndFillInfo() {
   fillCurrentDate()
 
   const challengersNodes = document.querySelectorAll('.js-challenger')
@@ -16,8 +23,6 @@ const main = async function () {
     fillChallengerRating(challengerNode, data.rating)
     fillChallengerActivity(challengerNode, data.activity)
   })
-
-  await activateTooltips()
 }
 
 function fillCurrentDate() {
@@ -186,6 +191,15 @@ async function activateTooltips() {
       document.body.addEventListener('click', hide)
     })
   }
+}
+
+async function activatePullToRefresh() {
+  await loadScript('/vendor/pulltorefresh.min.js')
+
+  PullToRefresh.init({
+    mainElement: document.querySelector('.js-pull-to-refresh'),
+    onRefresh: fetchAndFillInfo
+  })
 }
 
 function registerServiceWorker() {
