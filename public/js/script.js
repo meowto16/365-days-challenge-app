@@ -169,9 +169,7 @@ function fillChallengerAchievements(challenger, achievements) {
           : 'achievements__item--default'
       )
       achievementNode.dataset.popper = true
-      achievementNode.dataset.popperTitle = `${
-        achievement.completed ? '✔ ' : ''
-      }${name}`
+      achievementNode.dataset.popperTitle = `${completed ? '✔ ' : ''}${name}`
       achievementNode.dataset.popperDescription = description
 
       if (!progressCircleNode) {
