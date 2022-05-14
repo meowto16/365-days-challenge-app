@@ -231,7 +231,7 @@
 
       // retrieve from cache the master svg file
 
-      var r = new Request('assets/svg/svg-built.svg');
+      var r = new Request('/svg/sprite.svg');
 
       caches.match(r).then(function(response) {
 
