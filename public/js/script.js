@@ -236,12 +236,95 @@ async function activateTooltips() {
   }
 }
 
+function activateLoadingState() {
+  // Date reset
+  const timeNode = document.querySelector('.js-header-time')
+  timeNode.removeAttribute('datetime')
+  timeNode.removeAttribute('datatype')
+  timeNode.textContent = ''
+  timeNode.dataset.loading = ''
+
+  // Stats reset
+  ;[
+    ...document.querySelectorAll('.js-challenger-current-streak'),
+    ...document.querySelectorAll('.js-challenger-contributions-per-day'),
+    ...document.querySelectorAll('.js-challenger-total-contributes'),
+    ...document.querySelectorAll('.js-challenger-days-missed')
+  ].forEach((node) => {
+    node.dataset.loading = ''
+  })
+
+  // Rating reset
+  document
+    .querySelectorAll('.js-challenger-rating')
+    .forEach((ratingNode) => (ratingNode.dataset.loading = ''))
+  document
+    .querySelectorAll('.js-challenger-rating-star')
+    .forEach((starNode) => {
+      starNode.classList.add('rating__star--default')
+      starNode.classList.remove('rating__star--filled')
+    })
+
+  // Activity reset
+  document
+    .querySelectorAll('.js-challenger-activity')
+    .forEach((activityNode) => (activityNode.dataset.loading = ''))
+  document
+    .querySelectorAll('.js-challenger-activity-item')
+    .forEach((activityItemNode) => {
+      delete activityItemNode.dataset.popper
+      delete activityItemNode.dataset.popperTitle
+      delete activityItemNode.dataset.popperDescription
+
+      activityItemNode.classList.remove(
+        'activity__scale--default',
+        'activity__scale--warning',
+        'activity__scale--danger'
+      )
+      activityItemNode
+        .querySelectorAll('.js-challenger-activity-scale-part')
+        .forEach((scalePartNode) => {
+          scalePartNode.classList.replace(
+            'activity__scale-part--filled',
+            'activity__scale-part--empty'
+          )
+        })
+    })
+
+  // Achievements reset
+  document
+    .querySelectorAll('.js-challenger-achievements')
+    .forEach((achievementsNode) => (achievementsNode.dataset.loading = ''))
+
+  document
+    .querySelectorAll('[data-challenger-achievement]')
+    .forEach((achievementNode) => {
+      delete achievementNode.dataset.popper
+      delete achievementNode.dataset.popperTitle
+      delete achievementNode.dataset.popperDescription
+
+      achievementNode.classList.replace(
+        'achievements__item--completed',
+        'achievements__item--default'
+      )
+
+      achievementNode
+        .querySelector('.js-achievement-progress-circle')
+        .setAttribute('stroke-dashoffset', '0')
+    })
+}
+
 async function activatePullToRefresh() {
   await loadScript('/vendor/pulltorefresh.min.js')
 
   PullToRefresh.init({
     mainElement: document.querySelector('.js-pull-to-refresh'),
-    onRefresh: fetchAndFillInfo
+    onRefresh: async () => {
+      activateLoadingState()
+
+      await fetchAndFillInfo()
+      await activateTooltips()
+    }
   })
 }
 
