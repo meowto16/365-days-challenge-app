@@ -28,6 +28,20 @@ self.addEventListener('install', (event) => {
 
 // Cache and return requests
 self.addEventListener('fetch', (event) => {
+  // Fetch svg fragment from master file /svg/sprite.svg
+  if (/\.svg$/.test(event.request.url)) {
+    event.respondWith(
+      SVGPromise(event)
+        .then(function (r) {
+          return r
+        })
+        .catch(function (e) {
+          console.log('[ERROR]: ', e)
+          return fetch(event.request.url)
+        })
+    )
+  }
+
   event.respondWith(
     caches.match(event.request).then(function (response) {
       if (response) {

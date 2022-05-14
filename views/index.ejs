@@ -1,132 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>365 days challenge</title>
-  <link rel='stylesheet' href='/css/style.css'/>
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>365 days challenge</title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <header class="header header--elevated">
-  <div class="header__content">
-    <div class="container">
-      <div class="header__inner">
-        <div class="header__logo">
-          <div class="logo">
+    <div class="header__content">
+        <div class="container">
+            <div class="header__inner">
+                <div class="header__logo">
+                    <div class="logo">
             <span class="logo__icon">
               <svg class="svg-fit">
                 <use xlink:href="/svg/sprite.svg#logo"></use>
               </svg>
             </span>
-            <h1 class="logo__text">365 days challenge</h1>
-          </div>
-        </div>
-        <div class="header__date">
-            <time class="header__time js-header-time" data-loading>
+                        <h1 class="logo__text">365 days challenge</h1>
+                    </div>
+                </div>
+                <div class="header__date">
+                    <time class="header__time js-header-time" data-loading>
 
-            </time>
+                    </time>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </header>
 <main class="main js-pull-to-refresh">
-  <div class="container">
-    <% if (typeof challengers !== 'undefined' && !!challengers?.length) { %>
-      <section class="challengers" id="challengers">
-        <h2 class="challengers__title">Challengers</h2>
-        <div class="challengers__container">
-          <% challengers.map(challenger => { %>
-            <div class="challenger__card js-challenger" data-challenger-github="<%= challenger.github %>">
-              <div class="card">
-                <div class="card__left">
-                  <div class="card__info">
-                    <% if (typeof challenger.info.avatar !== 'undefined') { %>
-                      <div class="card__avatar">
-                          <img class="card__avatar-img"
-                               width="100"
-                               height="100"
-                               src="<%= challenger.info.avatar %>"
-                               alt="<%= challenger.info.name %>"
-                          />
-                      </div>
-                    <% } %>
-                    <% if (typeof challenger.info.name !== 'undefined') { %>
-                      <p class="card__name"><%= challenger.info.name %></p>
-                    <% } %>
-                    <% if (typeof challenger.info.specialization !== 'undefined') { %>
-                      <span class="card__technology">
+    <div class="container">
+        <% if (typeof challengers !== 'undefined' && !!challengers?.length) { %>
+            <section class="challengers" id="challengers">
+                <h2 class="challengers__title">Challengers</h2>
+                <div class="challengers__container">
+                    <% challengers.map(challenger => { %>
+                        <div class="challenger__card js-challenger" data-challenger-github="<%= challenger.github %>">
+                            <div class="card">
+                                <div class="card__left">
+                                    <div class="card__info">
+                                        <% if (typeof challenger.info.avatar !== 'undefined') { %>
+                                            <div class="card__avatar">
+                                                <img class="card__avatar-img"
+                                                     width="100"
+                                                     height="100"
+                                                     src="<%= challenger.info.avatar %>"
+                                                     alt="<%= challenger.info.name %>"
+                                                />
+                                            </div>
+                                        <% } %>
+                                        <% if (typeof challenger.info.name !== 'undefined') { %>
+                                            <p class="card__name"><%= challenger.info.name %></p>
+                                        <% } %>
+                                        <% if (typeof challenger.info.specialization !== 'undefined') { %>
+                                            <span class="card__technology">
                         <svg class="svg-fit">
                           <use xlink:href="<%= challenger.info.specialization %>"></use>
                         </svg>
                       </span>
-                    <% } %>
-                  </div>
-                    <div class="card__stats">
-                        <p class="card__title">Current stats</p>
-                        <ul class="card__statistic js-challenger-stats">
-                            <li><strong>Current streak: </strong><span class="card__statistic-item js-challenger-current-streak" data-loading>...</span></li>
-                            <li><strong>Contributions per day: </strong><span class="card__statistic-item js-challenger-contributions-per-day" data-loading>...</span></li>
-                            <li><strong>Total contributes: </strong><span class="card__statistic-item js-challenger-total-contributes" data-loading>...</span></li>
-                            <li><strong>Days missed: </strong><span class="card__statistic-item js-challenger-days-missed" data-loading>...</span></li>
-                        </ul>
-                    </div>
+                                        <% } %>
+                                    </div>
+                                    <div class="card__stats">
+                                        <p class="card__title">Current stats</p>
+                                        <ul class="card__statistic js-challenger-stats">
+                                            <li><strong>Current streak: </strong><span
+                                                        class="card__statistic-item js-challenger-current-streak"
+                                                        data-loading>...</span></li>
+                                            <li><strong>Contributions per day: </strong><span
+                                                        class="card__statistic-item js-challenger-contributions-per-day"
+                                                        data-loading>...</span></li>
+                                            <li><strong>Total contributes: </strong><span
+                                                        class="card__statistic-item js-challenger-total-contributes"
+                                                        data-loading>...</span></li>
+                                            <li><strong>Days missed: </strong><span
+                                                        class="card__statistic-item js-challenger-days-missed"
+                                                        data-loading>...</span></li>
+                                        </ul>
+                                    </div>
 
-                  <% if (typeof challenger.achievements !== 'undefined' && !!challenger.achievements?.length) { %>
-                    <div class="card__achievements">
-                      <p class="card__title">Achievements</p>
-                      <div class="achievements js-challenger-achievements" data-loading>
-                        <ul class="achievements__list js-challenger-achievements-list">
-                          <% challenger.achievements.map(achievement => { %>
-                            <li class="achievements__item" data-challenger-achievement="<%= achievement.code %>">
-                                <svg width="40" height="40" class="achievements__progress achievements__progress--bg" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="20" cy="20" r="18" stroke-dasharray="113" stroke-dashoffset="0" />
-                                </svg>
-                                <svg width="40" height="40" class="achievements__progress" xmlns="http://www.w3.org/2000/svg">
-                                    <circle class="js-achievement-progress-circle" cx="20" cy="20" r="18" stroke-dasharray="113" stroke-dashoffset="113" />
-                                </svg>
-                                <svg width="40" height="40" class="achievements__progress achievements__progress--overlay" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="20" cy="20" r="18" stroke-dasharray="113" stroke-dashoffset="0" />
-                                </svg>
-                                <span class="achievements__icon">
+                                    <% if (typeof challenger.achievements !== 'undefined' && !!challenger.achievements?.length) { %>
+                                        <div class="card__achievements">
+                                            <p class="card__title">Achievements</p>
+                                            <div class="achievements js-challenger-achievements" data-loading>
+                                                <ul class="achievements__list js-challenger-achievements-list">
+                                                    <% challenger.achievements.map(achievement => { %>
+                                                        <li class="achievements__item"
+                                                            data-challenger-achievement="<%= achievement.code %>">
+                                                            <svg width="40" height="40"
+                                                                 class="achievements__progress achievements__progress--bg"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="20" cy="20" r="18" stroke-dasharray="113"
+                                                                        stroke-dashoffset="0" />
+                                                            </svg>
+                                                            <svg width="40" height="40" class="achievements__progress"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <circle class="js-achievement-progress-circle" cx="20"
+                                                                        cy="20" r="18" stroke-dasharray="113"
+                                                                        stroke-dashoffset="113" />
+                                                            </svg>
+                                                            <svg width="40" height="40"
+                                                                 class="achievements__progress achievements__progress--overlay"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <circle cx="20" cy="20" r="18" stroke-dasharray="113"
+                                                                        stroke-dashoffset="0" />
+                                                            </svg>
+                                                            <span class="achievements__icon">
                                     <svg class="svg-fit" width="20" height="20">
                                         <use xlink:href="<%= achievement.icon %>"></use>
                                     </svg>
                                 </span>
-                            </li>
-                          <% }) %>
-                        </ul>
-                      </div>
-                    </div>
-                  <% } %>
+                                                        </li>
+                                                    <% }) %>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    <% } %>
 
-                  <% if (typeof challenger.info.socials !== 'undefined') { %>
-                    <div class="card__socials">
-                      <ul class="socials">
-                        <% Object.keys(challenger.info.socials).map(key => { %>
-                          <li class="socials__item">
-                            <a class="socials__icon" href="<%= challenger.info.socials[key] %>" target="_blank">
-                              <svg class="svg-fit">
-                                <use xlink:href="/svg/sprite.svg#<%= key %>"></use>
-                              </svg>
-                            </a>
-                          </li>
-                        <% }) %>
-                      </ul>
-                    </div>
-                  <% } %>
-                </div>
-                <div class="card__right">
+                                    <% if (typeof challenger.info.socials !== 'undefined') { %>
+                                        <div class="card__socials">
+                                            <ul class="socials">
+                                                <% Object.keys(challenger.info.socials).map(key => { %>
+                                                    <li class="socials__item">
+                                                        <a class="socials__icon"
+                                                           href="<%= challenger.info.socials[key] %>" target="_blank">
+                                                            <svg class="svg-fit">
+                                                                <use xlink:href="/svg/sprite.svg#<%= key %>"></use>
+                                                            </svg>
+                                                        </a>
+                                                    </li>
+                                                <% }) %>
+                                            </ul>
+                                        </div>
+                                    <% } %>
+                                </div>
+                                <div class="card__right">
 
-                  <div class="card__rating">
-                    <div>
-                        <ul class="rating js-challenger-rating"
-                            data-loading
-                            data-popper
-                            data-popper-title="User rating"
-                            data-popper-description="
+                                    <div class="card__rating">
+                                        <div>
+                                            <ul class="rating js-challenger-rating"
+                                                data-loading
+                                                data-popper
+                                                data-popper-title="User rating"
+                                                data-popper-description="
                                 Every day matter. Calculates from last 7 days average efficiency (contributes in a week).
                                 <br>
                                 <br>★ 1 - 8 contributes
@@ -135,59 +154,131 @@
                                 <br>★ 4 - 32 contributes
                                 <br>★ 5 - 40 contributes
                             ">
-                          <% for (let i = 1; i <= 5; i++) { %>
-                            <li class="rating__star rating__star--default js-challenger-rating-star%>">
-                              <svg class="svg-fit">
-                                <use xlink:href="/svg/sprite.svg#star"></use>
-                              </svg>
-                            </li>
-                          <% } %>
-                        </ul>
-                    </div>
-                    <p class="card__title">Last week activity</p>
-                  </div>
-                  <div class="card__activity">
-                    <ul class="activity js-challenger-activity" data-loading>
-                        <% for (let i = 0; i < 7; i++) { %>
-                            <li class="activity__item js-challenger-activity-item">
-                                <span class="activity__title js-challenger-activity-title">&nbsp;</span>
-                                <span class="activity__scale js-challenger-activity-scale">
-                                    <% for (let i = 6; i >= 1; i--) { %>
-                                        <span class="activity__scale-part activity__scale-part--empty js-challenger-activity-scale-part"></span>
-                                    <% } %>
-                                </span>
-                            </li>
-                        <% } %>
-                    </ul>
-                  </div>
+                                                <% for (let i = 1; i <= 5; i++) { %>
+                                                    <li class="rating__star rating__star--default js-challenger-rating-star%>">
+                                                        <svg class="svg-fit">
+                                                            <use xlink:href="/svg/sprite.svg#star"></use>
+                                                        </svg>
+                                                    </li>
+                                                <% } %>
+                                            </ul>
+                                        </div>
+                                        <p class="card__title">Last week activity</p>
+                                    </div>
+                                    <div class="card__activity">
+                                        <ul class="activity js-challenger-activity" data-loading>
+                                            <% for (let i = 0; i < 7; i++) { %>
+                                                <li class="activity__item js-challenger-activity-item">
+                                                    <span class="activity__title js-challenger-activity-title">&nbsp;</span>
+                                                    <span class="activity__scale js-challenger-activity-scale">
+                                                        <% for (let i = 6; i >= 1; i--) { %>
+                                                            <span class="activity__scale-part activity__scale-part--empty js-challenger-activity-scale-part"></span>
+                                                        <% } %>
+                                                    </span>
+                                                </li>
+                                            <% } %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
                 </div>
-              </div>
-            </div>
-          <% }) %>
-        </div>
-      </section>
-    <% } %>
-  </div>
+            </section>
+        <% } %>
+    </div>
 </main>
 <footer class="footer footer--black">
-  <div class="copyright">
-    <div class="container">
-      <div class="copyright__inner">
+    <div class="copyright">
+        <div class="container">
+            <div class="copyright__inner">
           <span class="copyright__icon">
             <svg class="svg-fit" width="24" height="24">
               <use xlink:href="/svg/sprite.svg#cards"></use>
             </svg>
         </span>
-        <span class="copyright__title">Made with skill. 2022</span>
-      </div>
+                <span class="copyright__title">Made with skill. 2022</span>
+            </div>
+        </div>
     </div>
-  </div>
 </footer>
 <div class="tooltip tooltip--hidden" role="tooltip">
     <span class="tooltip__title js-tooltip-title">God</span>
     <span class="tooltip__description js-tooltip-description">15 contributions</span>
     <div id="arrow" data-popper-arrow></div>
 </div>
+<script>
+  // Got this from: https://clicktorelease.com/blog/optimise-svg-load-service-worker/
+
+  function matchInString(regExp, string) {
+
+    var m;
+
+    while ((m = regExp.exec(string)) !== null) {
+      if (m.index === regExp.lastIndex) regExp.lastIndex++;
+      return m;
+    }
+
+    return null;
+
+  }
+
+  function SVGPromise(event) {
+
+    // we create the Promise object that will get returned
+
+    var promise = new Promise(function(resolve, reject) {
+
+      // retrieve from cache the master svg file
+
+      var r = new Request('assets/svg/svg-built.svg');
+
+      caches.match(r).then(function(response) {
+
+        return response.text();
+
+      }).then(function(svgMaster) {
+
+        // master file was successfully retrieved from cache
+        // svgMaster is the text content of the file
+
+        // extract the name of the file from the request
+        // i.e. http://www.domain.com/folder/assets/file.svg to file.svg
+
+        var id = matchInString(/.*\/(.*)/gmi, event.request.url)[1];
+
+        // try to extract the svg tag with the id attribute with the name
+
+        var regExp = new RegExp('(<svg id="' + id + '".*<\/svg>)', 'gi');
+        var res = matchInString(regExp, svgMaster);
+
+        if (res) {
+
+          // we found it, we can return the node as am SVG file
+          // check what happens in SVGPromise.then
+          var code = res[0];
+          code = code.replace(/<\/svg>/gmi, '<circle cx="3" cy="3" r="3" fill="#00ff00"/></svg>');
+
+          var svgResponse = new Response(code, { headers: { 'Content-Type': 'image/svg+xml' } });
+          resolve(svgResponse);
+
+        } else {
+
+          // we didn't find it, the promise is rejected
+          // check what happens in the SVGPromise.catch
+
+          reject(id + ' is not on master');
+
+        }
+
+      });
+
+    });
+
+    return promise;
+
+  }
+</script>
 <script src="/js/script.js"></script>
 </body>
 </html>
