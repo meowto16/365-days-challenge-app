@@ -22,7 +22,7 @@ const challengers = [
     'e-razboinikov',
     '@e.razboinikov',
     {
-      name: 'Razboynikov E.',
+      name: 'Razboinikov E.',
       avatar: '/images/evgeniy-razboynikov.jpeg',
       specialization: '/svg/sprite.svg#flutter',
       socials: {
