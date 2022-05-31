@@ -146,8 +146,37 @@ body {
   fill: #fff;
 }
 
+.challengers__container {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
 .challenger__card {
   margin-bottom: 36px;
+  position: relative;
+}
+
+.challenger__heart {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 0;
+  background: none;
+  border: 0;
+  fill: #bbb;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.challenger__heart.active {
+  fill: #d32f2f;
+}
+
+.challenger__heart.inactive {
+  fill: transparent;
+  pointer-events: none;
 }
 
 .challenger__card:last-child {
@@ -688,6 +717,10 @@ body {
   .header__time {
     font-size: 12px;
     white-space: nowrap;
+  }
+
+  .challenger__heart {
+    right: 90px;
   }
 
   .challengers__title {

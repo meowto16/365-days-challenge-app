@@ -7,6 +7,7 @@ const main = async function () {
 
   await activateTooltips()
   await activatePullToRefresh()
+  activateChallengerFavorites()
 }
 
 async function fetchAndFillInfo() {
@@ -326,6 +327,64 @@ async function activatePullToRefresh() {
       await activateTooltips()
     }
   })
+}
+
+function activateChallengerFavorites() {
+  document.querySelectorAll('.js-challenger-like').forEach((likeButtonNode) => {
+    likeButtonNode.addEventListener('click', (event) => {
+      event.preventDefault()
+      const challengerNode = event.currentTarget.closest('.js-challenger')
+
+      if (!challengerNode) {
+        return
+      }
+
+      const challengerGithub = challengerNode.dataset.challengerGithub
+      const favorite = getFavoriteChallenger()
+
+      if (challengerGithub === favorite) {
+        removeChallengerFromFavorites()
+      } else {
+        addChallengerToFavorites(challengerGithub)
+      }
+
+      sortChallengersByFavorites()
+    })
+  })
+
+  sortChallengersByFavorites()
+}
+
+function sortChallengersByFavorites() {
+  const challengers = document.querySelectorAll('.js-challenger')
+  const favorite = getFavoriteChallenger()
+
+  challengers.forEach((challengerNode) => {
+    const challengerGithub = challengerNode.dataset.challengerGithub
+    const isFavorite = favorite === challengerGithub
+
+    const challengerLike = challengerNode.querySelector('.js-challenger-like')
+
+    challengerNode.style.order = isFavorite ? '0' : '1'
+
+    if (favorite) {
+      challengerLike.classList.add(isFavorite ? 'active' : 'inactive')
+    } else {
+      challengerLike.classList.remove('active', 'inactive')
+    }
+  })
+}
+
+function getFavoriteChallenger() {
+  return localStorage.getItem('FAVORITE_CHALLENGER_GITHUB')
+}
+
+function addChallengerToFavorites(challengerName) {
+  return localStorage.setItem('FAVORITE_CHALLENGER_GITHUB', challengerName)
+}
+
+function removeChallengerFromFavorites() {
+  return localStorage.removeItem('FAVORITE_CHALLENGER_GITHUB')
 }
 
 function registerServiceWorker() {
