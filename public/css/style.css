@@ -163,24 +163,24 @@ body {
   font-size: 0;
   background: none;
   border: 0;
-  fill: #bbb;
   width: 24px;
   height: 24px;
   padding: 0;
   cursor: pointer;
+  fill: transparent;
+  stroke: #bbb;
+  stroke-width: 1;
 }
 
 .challenger__heart.active {
   fill: #d32f2f;
+  stroke: #d32f2f;
 }
 
 .challenger__heart.inactive {
   fill: transparent;
+  stroke: transparent;
   pointer-events: none;
-}
-
-.challenger__card:last-child {
-  margin-bottom: 0;
 }
 
 .challengers__title {
