@@ -2,12 +2,12 @@
 
 const main = async function () {
   registerServiceWorker()
+  activateChallengerFavorites()
 
   await fetchAndFillInfo()
 
   await activateTooltips()
   await activatePullToRefresh()
-  activateChallengerFavorites()
 }
 
 async function fetchAndFillInfo() {
