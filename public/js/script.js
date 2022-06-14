@@ -277,11 +277,16 @@ function activateLoadingState() {
       delete activityItemNode.dataset.popperTitle
       delete activityItemNode.dataset.popperDescription
 
-      activityItemNode.classList.remove(
+      const scaleNode = activityItemNode.querySelector(
+        '.js-challenger-activity-scale'
+      )
+
+      scaleNode.classList.remove(
         'activity__scale--default',
         'activity__scale--warning',
         'activity__scale--danger'
       )
+
       activityItemNode
         .querySelectorAll('.js-challenger-activity-scale-part')
         .forEach((scalePartNode) => {
