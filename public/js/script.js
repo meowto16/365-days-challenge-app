@@ -98,6 +98,10 @@ function fillChallengerActivity(challenger, activity) {
 
   delete activityNode.dataset.loading
 
+  if (!activityEntries.length) {
+    return
+  }
+
   activityItemsNodes.forEach((activityItemNode, idx) => {
     const [day, data] = activityEntries[idx]
     const titleNode = activityItemNode.querySelector(
@@ -177,7 +181,10 @@ function fillChallengerAchievements(challenger, achievements) {
         return
       }
 
-      progressCircleNode.setAttribute('stroke-dashoffset', `${100 - progress}`)
+      progressCircleNode.setAttribute(
+        'stroke-dashoffset',
+        `${(100 - progress) * 1.13}`
+      )
     }
   )
 }

@@ -68,6 +68,23 @@ const challengers = [
     {
       startDate: new Date('2022-01-21')
     }
+  ),
+  new Challenger(
+    'masterdensan',
+    '@id154457330',
+    {
+      name: 'Lambin D.',
+      avatar: '/images/denis-lambin.jpeg',
+      specialization: 'react',
+      socials: {
+        vk: 'https://vk.com/id154457330',
+        github: 'https://github.com/MasterDenSan'
+      },
+      birthday: new Date('2022-08-08')
+    },
+    {
+      startDate: new Date('2022-07-18')
+    }
   )
 ]
 
