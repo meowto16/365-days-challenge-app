@@ -103,7 +103,11 @@ function fillChallengerActivity(challenger, activity) {
   }
 
   activityItemsNodes.forEach((activityItemNode, idx) => {
-    const [day, data] = activityEntries[idx]
+    const entry = activityEntries[idx]
+
+    if (!entry) return
+
+    const [day, data] = entry
     const titleNode = activityItemNode.querySelector(
       '.js-challenger-activity-title'
     )
