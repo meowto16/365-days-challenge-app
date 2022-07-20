@@ -71,13 +71,13 @@ const challengers = [
   ),
   new Challenger(
     'masterdensan',
-    '@id154457330',
+    '@nightshikiden',
     {
       name: 'Lambin D.',
       avatar: '/images/denis-lambin.jpeg',
       specialization: 'react',
       socials: {
-        vk: 'https://vk.com/id154457330',
+        vk: 'https://vk.com/nightshikiden',
         github: 'https://github.com/MasterDenSan'
       },
       birthday: new Date('2022-08-08')
