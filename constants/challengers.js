@@ -3,13 +3,13 @@ const Challenger = require('../models/Challenger')
 const challengers = [
   new Challenger(
     'meowto16',
-    '@meowto16',
+    '@mw',
     {
       name: 'Kirshin M.',
       avatar: '/images/maxim-kirshin.jpeg',
       specialization: 'react',
       socials: {
-        vk: 'https://vk.com/meowto16',
+        vk: 'https://vk.com/mw',
         github: 'https://github.com/meowto16'
       },
       birthday: new Date('2022-10-28')
