@@ -42,8 +42,13 @@ function fillCurrentDate() {
 }
 
 function fillChallengerStats(challenger, stats) {
-  const { currentStreak, contributionsPerDay, totalContributes, daysMissed } =
-    stats
+  const {
+    currentStreak = '',
+    contributionsPerDay = '',
+    totalContributes = '',
+    totalWeekContributes = '',
+    daysMissed = ''
+  } = stats
 
   const statsNode = challenger.querySelector('.js-challenger-stats')
   const currentStreakNode = statsNode.querySelector(
@@ -55,12 +60,16 @@ function fillChallengerStats(challenger, stats) {
   const totalContributesNode = statsNode.querySelector(
     '.js-challenger-total-contributes'
   )
+  const totalWeekContributesNode = statsNode.querySelector(
+    '.js-challenger-week-total-contributes'
+  )
   const daysMissedNode = statsNode.querySelector('.js-challenger-days-missed')
 
   const statsMap = [
     [currentStreak, currentStreakNode],
     [contributionsPerDay, contributionsPerDayNode],
     [totalContributes, totalContributesNode],
+    [totalWeekContributes, totalWeekContributesNode],
     [daysMissed, daysMissedNode]
   ]
 
@@ -261,6 +270,7 @@ function activateLoadingState() {
     ...document.querySelectorAll('.js-challenger-current-streak'),
     ...document.querySelectorAll('.js-challenger-contributions-per-day'),
     ...document.querySelectorAll('.js-challenger-total-contributes'),
+    ...document.querySelectorAll('.js-challenger-week-total-contributes'),
     ...document.querySelectorAll('.js-challenger-days-missed')
   ].forEach((node) => {
     node.dataset.loading = ''

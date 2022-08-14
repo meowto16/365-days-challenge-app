@@ -142,6 +142,11 @@ class Challenger {
     const activity = this.calculateActivity()
     const rating = this.calculateRating()
 
+    const totalWeekContributes = Object.values(activity).reduce(
+      (acc, day) => acc + day.count,
+      0
+    )
+
     return {
       stats: {
         currentStreak:
@@ -151,7 +156,11 @@ class Challenger {
         contributionsPerDay: typeof perDay === 'number' ? `${perDay}` : null,
         daysMissed: typeof daysMissed === 'number' ? `${daysMissed}` : null,
         totalContributes:
-          typeof totalContributes === 'number' ? `${totalContributes}` : null
+          typeof totalContributes === 'number' ? `${totalContributes}` : null,
+        totalWeekContributes:
+          typeof totalWeekContributes === 'number'
+            ? `${totalWeekContributes}`
+            : null
       },
       achievements,
       secretAchievements,
@@ -425,6 +434,7 @@ class Challenger {
         return 0
       })()
       acc[day] = {
+        count,
         activity,
         date: `${day} (${date})`,
         contributes:

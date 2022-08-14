@@ -1,4 +1,4 @@
-const CACHE_NAME = '365-days-challenge-app-version-1.1.1'
+const CACHE_NAME = '365-days-challenge-app-version-1.1.2'
 
 const urlsToCache = [
   '/',
