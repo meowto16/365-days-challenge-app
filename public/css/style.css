@@ -662,6 +662,15 @@ body {
   font-size: 14px;
 }
 
+.tooltip__description ul {
+  text-align: left;
+  padding-left: 25px;
+}
+
+.tooltip__description ul li {
+  margin-bottom: 6px;
+}
+
 #arrow,
 #arrow::before {
   position: absolute;
