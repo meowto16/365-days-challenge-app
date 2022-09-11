@@ -24,6 +24,7 @@ async function fetchAndFillInfo() {
     fillChallengerRating(challengerNode, data.rating)
     fillChallengerActivity(challengerNode, data.activity)
     fillChallengerAchievements(challengerNode, data.achievements)
+    fillChallengerHintToBeGodlike(challengerNode, data.stats)
   })
 }
 
@@ -200,6 +201,47 @@ function fillChallengerAchievements(challenger, achievements) {
       )
     }
   )
+}
+
+function fillChallengerHintToBeGodlike(challenger, stats) {
+  const totalContributesNode = challenger.querySelector(
+    '.js-challenger-total-contributes'
+  )
+
+  if (!totalContributesNode) {
+    return
+  }
+
+  if (!stats.totalContributes || !stats.currentStreak) {
+    return
+  }
+
+  const contributesLeft = 2000 - parseInt(stats.totalContributes)
+  const needContributesInDay =
+    contributesLeft / (365 - parseInt(stats.currentStreak))
+
+  const contributes = {
+    inDay: {
+      min: Math.floor(needContributesInDay),
+      max: Math.ceil(needContributesInDay)
+    },
+    inWeek: {
+      min: Math.floor(needContributesInDay * 7),
+      max: Math.ceil(needContributesInDay * 7)
+    }
+  }
+
+  const desc = `
+    <ul>
+      <li>${contributesLeft} contribute</li>
+      <li>${contributes.inDay.min}-${contributes.inDay.max} contributes in a day</li>
+      <li>${contributes.inWeek.min}-${contributes.inWeek.max} contributes in a week</li>
+    </ul>
+  `
+
+  totalContributesNode.setAttribute('data-popper', '')
+  totalContributesNode.setAttribute('data-popper-title', 'TO BE GODLIKE:')
+  totalContributesNode.setAttribute('data-popper-description', desc)
 }
 
 async function activateTooltips() {
@@ -438,6 +480,10 @@ async function loadScript(path) {
     script.onload = resolve
     script.onerror = reject
   })
+}
+
+function plural(num, word) {
+  return num === 1 ? `${num} ${word}` : `${num} ${word}s`
 }
 
 class API {
