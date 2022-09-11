@@ -233,9 +233,15 @@ function fillChallengerHintToBeGodlike(challenger, stats) {
 
   const desc = `
     <ul>
-      <li>${contributesLeft} contribute</li>
-      <li>${contributes.inDay.min}-${contributes.inDay.max} contributes in a day</li>
-      <li>${contributes.inWeek.min}-${contributes.inWeek.max} contributes in a week</li>
+      <li>${contributesLeft} ${plural(contributesLeft, 'contribute')}</li>
+      <li>
+          ${contributes.inDay.min}-${contributes.inDay.max} 
+          ${plural(contributes.inDay.max, 'contribute')} in a day
+      </li>
+      <li>
+          ${contributes.inWeek.min}-${contributes.inWeek.max} 
+          ${plural(contributes.inWeek.max, 'contribute')} in a week
+      </li>
     </ul>
   `
 
@@ -483,7 +489,7 @@ async function loadScript(path) {
 }
 
 function plural(num, word) {
-  return num === 1 ? `${num} ${word}` : `${num} ${word}s`
+  return num === 1 || num % 10 === 1 ? word : `${word}s`
 }
 
 class API {
