@@ -2,4 +2,4 @@
 
 This small app tracks progress due 365 days challenge.
 
-https://day-365-challenge-app.herokuapp.com/
+https://day-365-challenge-app.onrender.com/
