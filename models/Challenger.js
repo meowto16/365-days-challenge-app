@@ -122,11 +122,6 @@ class Challenger {
         '/svg/sprite.svg#ribbon-6'
       )
     ]
-
-    this.secretAchievements = [
-      new Achievement('takes-it-easy'),
-      new Achievement('birthday-commit')
-    ]
   }
 
   async getFullInformation() {
@@ -202,7 +197,7 @@ class Challenger {
         from: this?.meta?.startDate || new Date('2022-01-01'),
         to: (() => {
           const today = new Date()
-          const yearEnd = new Date('2022-12-31')
+          const yearEnd = this?.meta?.endDate
 
           return today > yearEnd ? yearEnd.toISOString() : today.toISOString()
         })()

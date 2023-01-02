@@ -15,7 +15,8 @@ const challengers = [
       birthday: new Date('2022-10-28')
     },
     {
-      startDate: new Date('2023-01-01')
+      startDate: new Date('2023-01-01'),
+      endDate: new Date('2023-12-31')
     }
   )
 ]
