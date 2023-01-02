@@ -1,12 +1,9 @@
-const CACHE_NAME = '365-days-challenge-app-version-1.1.7'
+const CACHE_NAME = '365-days-challenge-app-version-1.1.8'
 
 const urlsToCache = [
   '/',
   '/js/script.js',
   '/images/maxim-kirshin.jpeg',
-  '/images/evgeniy-razboynikov.jpeg',
-  '/images/ruslan-bekshenev.jpg',
-  '/images/maxim-petrov.jpeg',
   '/svg/sprite.svg',
   '/fonts/Montserrat/Montserrat-Bold.ttf',
   '/fonts/Montserrat/Montserrat-Regular.ttf',
