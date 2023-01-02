@@ -133,7 +133,6 @@ class Challenger {
     const totalContributes = this.calculateAllContributions()
 
     const achievements = this.calculateAchievements()
-    const secretAchievements = this.calculateSecretAchievements()
     const activity = this.calculateActivity()
     const rating = this.calculateRating()
 
@@ -158,7 +157,6 @@ class Challenger {
             : null
       },
       achievements,
-      secretAchievements,
       rating,
       activity
     }
@@ -334,70 +332,6 @@ class Challenger {
 
       return acc
     }, {})
-  }
-
-  calculateSecretAchievements() {
-    const values = [...this._contributions.values()]
-    const secretAchievements = [...this.secretAchievements]
-
-    secretAchievements.forEach((secretAchievement) => {
-      switch (secretAchievement.code) {
-        case 'takes-it-easy':
-          const slice = values.slice(6)
-
-          if (slice.length === 0) {
-            return
-          }
-
-          const oneContributeIn7DaysInARow = slice.some((day7, idx) => {
-            const startIdx = idx
-            const endIdx = startIdx + 6
-
-            const week = [...values.slice(startIdx, endIdx), day7]
-
-            return (
-              week.length === 7 &&
-              week.every((dayContributes) => dayContributes === 1)
-            )
-          })
-
-          secretAchievement.progress = oneContributeIn7DaysInARow ? 100 : 0
-          secretAchievement.completed = secretAchievement.progress === 100
-
-          return
-        case 'birthday-commit':
-          const birthdayDate = this?.info?.birthday
-          if (!(birthdayDate instanceof Date)) return
-
-          const birthdayYear = String(birthdayDate.getFullYear())
-          const birthdayMonth = String(birthdayDate.getMonth() + 1).padStart(
-            2,
-            '0'
-          )
-          const birthdayDay = String(birthdayDate.getDate()).padStart(2, '0')
-
-          const birthdayContribution = this._contributions.get(
-            `${birthdayYear}-${birthdayMonth}-${birthdayDay}`
-          )
-          const isCommitedInBirthday =
-            typeof birthdayContribution === 'number' &&
-            birthdayContribution >= 1
-
-          secretAchievement.progress = isCommitedInBirthday ? 100 : 0
-          secretAchievement.completed = secretAchievement.progress === 100
-
-          return
-      }
-    })
-
-    return secretAchievements.reduce((acc, achievement) => {
-      acc[achievement.code] = {
-        progress: achievement.progress,
-        completed: achievement.progress === 100
-      }
-
-      return acc
-    })
   }
 
   calculateRating() {
